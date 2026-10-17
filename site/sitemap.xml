@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 新增頁面時一併加入；網址不含 .html（Cloudflare 會將 .html 轉址到無副檔名版本） -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/articles/japan-tax-refund-2026</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/articles/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/compare</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/triangle</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/credit-card</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/history</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/about</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/privacy</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://exchange-rate.exchange-rate.workers.dev/disclaimer</loc><lastmod>2026-10-18</lastmod></url>
+</urlset>
