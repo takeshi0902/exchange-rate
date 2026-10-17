@@ -90,6 +90,19 @@
   const footerEl = document.getElementById('footer-placeholder');
   if (footerEl) footerEl.outerHTML = FOOTER_HTML;
 
+  // Cloudflare Web Analytics（不使用 cookie）。以一般 script 載入：
+  // module 型別動態插入時 beacon 讀不到自己的 data-cf-beacon 設定
+  // 若之後加上 CSP：script-src 加 static.cloudflareinsights.com，connect-src 加 cloudflareinsights.com
+  const CF_ANALYTICS_TOKEN = 'd8d765159c8c47e698e60a5c972ae8ab';
+  const isLocal = ['localhost', '127.0.0.1', ''].includes(location.hostname);  // 本機測試不計入
+  if (!isLocal) {
+    const beacon = document.createElement('script');
+    beacon.defer = true;
+    beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    beacon.setAttribute('data-cf-beacon', JSON.stringify({ token: CF_ANALYTICS_TOKEN }));
+    document.body.appendChild(beacon);
+  }
+
   // Hamburger toggle
   document.addEventListener('click', (e) => {
     const ham  = document.getElementById('hamburger');
