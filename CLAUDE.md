@@ -8,7 +8,7 @@
 
 進行中實驗：日本退稅新制文章上線測流量（2026-10-17 起），結果納入 `docs/01-market.md`。
 
-流量分析：Cloudflare Web Analytics（2026-10-18 起），後台 Web Analytics 查看。
+流量分析：Cloudflare Web Analytics（2026-10-18 起）；Google Search Console 已驗證（`site/googleb9690c46a79fca48.html` 勿刪）。新增頁面要同步加入 `site/sitemap.xml`。
 
 已知待辦：後端未部署，前端仍用 2026-10-18 實抓快照（`USE_MOCK = true`）；台銀、中信暫停；`data/bank-fees.json` 只有舊 6 家且含台銀；`articles/index.html` 另 3 篇文章、`contact.html`、`sitemap.xml` 尚不存在；`robots.txt` 網域待填。
 
