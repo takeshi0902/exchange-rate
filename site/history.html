@@ -37,7 +37,7 @@
 
 <div class="page-hero">
   <h1>歷史匯率走勢</h1>
-  <p>近一年日幣 / 美元對台幣走勢，標示最低換匯點</p>
+  <p>各銀行即期匯率的每日平均，從 2026-10-18 開始累積，標示期間最低點。</p>
 </div>
 
 <div class="container page-body">
@@ -165,7 +165,13 @@ async function loadHistory() {
 }
 
 function renderStats(data) {
-  if (!data || !data.length) return;
+  if (!data || !data.length) {
+    document.getElementById('statRow').innerHTML =
+      '<div class="text-muted">這個幣別還沒有走勢資料，每天更新後會開始累積。</div>';
+    return;
+  }
+  // 資料從 2026-10-18 開始累積，未滿一年時標示實際天數
+  const period  = data.length >= 300 ? '近一年' : `近 ${data.length} 天`;
   const sells   = data.map(d => d.spot_sell);
   const min     = Math.min(...sells);
   const max     = Math.max(...sells);
@@ -182,17 +188,17 @@ function renderStats(data) {
       <div class="snote">TWD / ${curCurrency}</div>
     </div>
     <div class="stat-card">
-      <div class="slabel lowest-mark">★ 近一年最低</div>
+      <div class="slabel lowest-mark">★ ${period}最低</div>
       <div class="svalue lowest-mark">${fmt(min)}</div>
       <div class="snote">${minDate}</div>
     </div>
     <div class="stat-card">
-      <div class="slabel highest-mark">● 近一年最高</div>
+      <div class="slabel highest-mark">● ${period}最高</div>
       <div class="svalue highest-mark">${fmt(max)}</div>
       <div class="snote">${maxDate}</div>
     </div>
     <div class="stat-card">
-      <div class="slabel">近一年平均</div>
+      <div class="slabel">${period}平均</div>
       <div class="svalue">${fmt(avg)}</div>
       <div class="snote">平均賣出匯率</div>
     </div>`;
@@ -263,7 +269,12 @@ function renderChart() {
 }
 
 function renderAnalysis(data) {
-  if (!data || data.length < 30) return;
+  if (!data || data.length < 30) {
+    document.getElementById('analysisBody').innerHTML = `
+      <p class="text-muted">走勢資料從 ${data?.[0]?.date || '近日'} 開始累積，目前 ${data?.length || 0} 天。
+      累積滿 30 天後，這裡會顯示和近期均價的比較。</p>`;
+    return;
+  }
   const sells = data.map(d => d.spot_sell);
   const cur   = sells[sells.length - 1];
   const avg30 = sells.slice(-30).reduce((a, b) => a + b, 0) / 30;

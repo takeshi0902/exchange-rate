@@ -1,0 +1,86 @@
+# 每小時爬取各銀行匯率 → 更新歷史資料（data 分支）→ 部署網站到 Cloudflare
+# 架構說明：docs/adr/0004-static-data-via-github-actions.md
+#
+# 需要的 Repository secrets（Settings → Secrets and variables → Actions）：
+#   CLOUDFLARE_API_TOKEN   Cloudflare API Token（權限：Workers Scripts Edit）
+#   CLOUDFLARE_ACCOUNT_ID  Cloudflare 帳號 ID
+#   DISCORD_WEBHOOK_URL    （選用）爬蟲連續失敗 3 次時通知
+
+name: 更新匯率並部署
+
+on:
+  schedule:
+    - cron: "7 * * * *"      # 每小時第 7 分（UTC），避開整點尖峰
+  push:
+    branches: [main]          # 程式或網頁有更新就重新部署
+  workflow_dispatch:          # 可在 Actions 頁面手動執行
+
+concurrency:
+  group: update-rates         # 同時只跑一個，避免兩次同時寫 data 分支
+  cancel-in-progress: false
+
+permissions:
+  contents: write             # 推送 data 分支
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: 安裝套件
+        run: pip install -r backend/requirements.txt
+
+      - name: 離線測試
+        run: python -m unittest discover -s backend/tests
+
+      - name: 取出歷史資料（data 分支）
+        env:
+          REPO_URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        run: |
+          if git ls-remote --exit-code --heads "$REPO_URL" data >/dev/null; then
+            git clone --depth 1 --branch data "$REPO_URL" data-store
+          else
+            # 第一次執行：建立空的 data 分支
+            mkdir data-store && git -C data-store init -b data
+            git -C data-store remote add origin "$REPO_URL"
+          fi
+
+      - name: 爬取匯率並產生網站資料
+        id: build
+        continue-on-error: true   # 全部銀行失敗時仍部署前一次的資料
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python backend/build_data.py --store data-store --out site/data
+
+      - name: 儲存歷史資料到 data 分支
+        working-directory: data-store
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "資料沒有變化"
+          else
+            git commit -q -m "匯率資料 $(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')"
+            git push -q origin data
+          fi
+
+      - name: 部署到 Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@4.151.1 deploy
+
+      - name: 回報爬蟲結果
+        if: steps.build.outcome == 'failure'
+        run: |
+          echo "::error::所有銀行都爬取失敗，網站沿用前一次的資料"
+          exit 1

@@ -49,3 +49,9 @@ htmlcov/
 # Python 虛擬環境
 .venv/
 venv/
+
+# 由 backend/build_data.py 產生（正式資料在 data 分支，由 GitHub Actions 部署）
+site/data/rates.json
+site/data/status.json
+site/data/history/
+data-store/

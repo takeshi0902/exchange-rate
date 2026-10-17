@@ -10,16 +10,18 @@
 
 流量分析：Cloudflare Web Analytics（2026-10-18 起）；Google Search Console 已驗證（`site/googleb9690c46a79fca48.html` 勿刪）。新增頁面要同步加入 `site/sitemap.xml`。
 
-已知待辦：後端未部署，前端仍用 2026-10-18 實抓快照（`USE_MOCK = true`）；台銀、中信暫停；`data/bank-fees.json` 只有舊 6 家且含台銀；`articles/index.html` 另 3 篇文章、`contact.html`、`sitemap.xml` 尚不存在；`robots.txt` 網域待填。
+已知待辦：GitHub repo 與 Actions secrets 尚未設定（設定前資料不會自動更新）；台銀、中信暫停；`data/bank-fees.json` 只有舊 6 家且含台銀；`articles/index.html` 另 3 篇文章、`contact.html`、`sitemap.xml` 尚不存在；`robots.txt` 網域待填。
 
 ## 專案結構
 
-- 前端：`site/`（靜態 HTML ＋ `css/`、`js/`、`data/`），部署於 Cloudflare Pages，見 `docs/adr/0001-*`
-- 部署：`npx wrangler deploy`（設定在 `wrangler.jsonc`，只上傳 `site/`）
+- 前端：`site/`（全靜態 HTML ＋ `css/`、`js/`、`data/`），部署於 Cloudflare（Workers 靜態資產），見 ADR 0001
+- 匯率資料：GitHub Actions 每小時執行 `backend/build_data.py` → 產生 `site/data/rates.json`、`history/` → 部署，見 ADR 0004
+  - 歷史資料在 git 的 `data` 分支；`site/data/rates.json` 等為產生檔，不進 main
+  - 爬蟲：`backend/scrapers/` 一行一檔，註冊於 `__init__.py`；資料來源見 ADR 0003
+  - 離線測試：`backend/.venv/Scripts/python -m unittest discover -s backend/tests`
+  - 實際連線測試：`cd backend && .venv/Scripts/python test_scrapers.py`
+- **部署**：推送到 main 或在 GitHub Actions 手動執行「更新匯率並部署」。不要從本機 `wrangler deploy`（會被 `check_site_data.py` 擋下）
 - 網址：https://exchange-rate.exchange-rate.workers.dev
-- 後端：`backend/`（Python，銀行爬蟲、排程、通知，預計部署於 Render，尚未上線）
-  - 爬蟲：`backend/scrapers/` 一行一檔，註冊於 `__init__.py`；資料來源見 `docs/adr/0003-*`
-  - 實測：`cd backend && .venv/Scripts/python test_scrapers.py`
 - 文件：`docs/`（各階段產出）、`docs/adr/`（技術決策）
 
 ## 規則

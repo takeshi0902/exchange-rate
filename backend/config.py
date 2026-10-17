@@ -3,10 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DISCORD_WEBHOOK_URL    = os.getenv("DISCORD_WEBHOOK_URL", "")
-DATABASE_PATH          = os.getenv("DATABASE_PATH", "rates.db")
-SCRAPE_INTERVAL_HOURS  = int(os.getenv("SCRAPE_INTERVAL_HOURS", "1"))
-CORS_ORIGINS           = [s.strip() for s in os.getenv("CORS_ORIGINS", "*").split(",")]
+# 爬蟲連續失敗時的 Discord 通知（GitHub Actions 由 secrets 提供；未設定則不通知）
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "")
 
 # 爬蟲共用 HTTP headers
 HEADERS = {

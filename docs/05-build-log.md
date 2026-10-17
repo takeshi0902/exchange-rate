@@ -11,3 +11,4 @@
 | 2026-10-18 | — | 信用卡資料與試算修正：聯邦「賤卡」→「賴點卡」、富邦 J Card →「台北富邦J卡」、台新 @GoGo → Richart 卡（2025-09-01 更名）、中信 LINE Pay 海外回饋 1% → 2.8%；移除查無依據的「海外手續費 0%」；回饋查無現行條件者標「待確認」以 0% 計；修正手續費重複計算（1% ＋ 1.5% → 1.5%）、現金改用現鈔賣出價；卡片資料附來源連結；臨櫃手續費表標示「資料待查證」 |
 | 2026-10-18 | 1（實驗） | 開啟 Cloudflare Web Analytics（`layout.js` 全站注入，本機不計入），已實測 beacon 送出統計；隱私權政策依實際情況重寫（移除未使用的 GA／AdSense／聯盟行銷描述，補上 Cloudflare、Google Fonts、jsDelivr）；`_headers` 註記日後 CSP 需放行的網域 |
 | 2026-10-18 | 1（實驗） | Google Search Console 完成驗證（網址前置字元，HTML 檔案 `site/googleb9690c46a79fca48.html`，勿刪）；新增 sitemap.xml；退稅文章已要求建立索引 |
+| 2026-10-18 | 5（提前） | 後端改為 GitHub Actions 每小時產生靜態 JSON（ADR 0004）：新增 `build_data.py`（含跨銀行異常值檢查、失敗沿用舊資料、Discord 通知）、離線測試 6 項、workflow、部署前資料檢查；移除 FastAPI／Render／mock；前端改讀 `data/*.json`、走勢頁加入「累積中」狀態；已以本機實抓資料部署一次 |

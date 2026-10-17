@@ -5,6 +5,10 @@
   "observability": {
     "enabled": true
   },
+  // 部署前確認 site/data/rates.json 存在且夠新，避免手動部署推上沒有匯率的網站
+  "build": {
+    "command": "python backend/check_site_data.py"
+  },
   "assets": {
     "directory": "site"
   }

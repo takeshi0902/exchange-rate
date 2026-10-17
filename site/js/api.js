@@ -1,26 +1,16 @@
 /* ══════════════════════════════════════════════════
-   API Client  |  Mock mode → real backend ready
-   後端上線後：把 API_BASE 換成 Render URL，USE_MOCK 改 false
+   資料讀取
+   匯率由 GitHub Actions 每小時爬取後，以靜態 JSON 部署在本站 data/ 底下
+   （backend/build_data.py、.github/workflows/update-rates.yml）
    ══════════════════════════════════════════════════ */
 
-const API_BASE = 'https://your-app.onrender.com';  // 後端上線後填入
-const USE_MOCK = true;                               // 後端上線後改 false
-const STALE_HOURS = 4;
-
-/* 模擬資料模式：頁面頂端顯示警示，避免使用者誤以為是真實匯率 */
-if (USE_MOCK) {
-  document.addEventListener('DOMContentLoaded', () => {
-    const banner = document.createElement('div');
-    banner.className = 'alert alert-warning';
-    banner.style.margin = '0';
-    banner.style.borderRadius = '0';
-    banner.textContent = '⚠️ 測試版：本頁匯率為某一時間點的資料快照，不是即時報價，換匯前請以銀行公告為準。';
-    document.body.prepend(banner);
-  });
-}
+const STALE_HOURS = 4;   // 超過幾小時沒更新視為資料過舊
 
 const FETCH_TIMEOUT_MS  = 10000;  // 10 秒後中止請求
 const FETCH_SLOW_MS     =  5000;  // 5 秒後顯示「載入中」提示
+
+/* 所有頁面都在根目錄或 articles/ 底下 */
+const DATA_BASE = location.pathname.includes('/articles/') ? '../data/' : 'data/';
 
 /* ─────────────────────────────────────────────────────────────
    Timeout-aware fetch
@@ -36,7 +26,8 @@ async function _fetchWithTimeout(url, { onSlow } = {}) {
   const abortTimer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
   try {
-    const res = await fetch(url, { signal: controller.signal });
+    // no-cache：每次向伺服器確認是否有新版（未變更時只回 304，不會重新下載）
+    const res = await fetch(url, { signal: controller.signal, cache: 'no-cache' });
     clearTimeout(abortTimer);
     clearTimeout(slowTimer);
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -51,39 +42,6 @@ async function _fetchWithTimeout(url, { onSlow } = {}) {
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Checksum verification (Web Crypto API)
-   Python side: sha256(json.dumps(rates, sort_keys=True, separators=(',',':')))
-   JS side: sha256(sortedJsonStringify(rates))
-   ───────────────────────────────────────────────────────────── */
-function _sortedJsonStringify(val) {
-  if (Array.isArray(val)) {
-    return '[' + val.map(_sortedJsonStringify).join(',') + ']';
-  }
-  if (val !== null && typeof val === 'object') {
-    const keys = Object.keys(val).sort();
-    return '{' + keys.map(k => JSON.stringify(k) + ':' + _sortedJsonStringify(val[k])).join(',') + '}';
-  }
-  return JSON.stringify(val);
-}
-
-async function _verifyChecksum(data) {
-  if (!data.checksum || !data.checksum.startsWith('sha256:')) return true;
-  if (!window.crypto?.subtle) return true;  // 舊瀏覽器跳過驗證
-
-  const expected = data.checksum.slice(7);
-  try {
-    const ratesStr  = _sortedJsonStringify(data.rates);
-    const msgBuf    = new TextEncoder().encode(ratesStr);
-    const hashBuf   = await crypto.subtle.digest('SHA-256', msgBuf);
-    const actual    = Array.from(new Uint8Array(hashBuf))
-                           .map(b => b.toString(16).padStart(2, '0')).join('');
-    return actual === expected;
-  } catch {
-    return true;  // 驗證失敗視為通過（降級）
-  }
-}
-
 /* ── Stale check ── */
 function isStale(updatedAt) {
   if (!updatedAt) return true;
@@ -95,72 +53,29 @@ function isRecent(updatedAt) {
   return Date.now() - new Date(updatedAt).getTime() < 120 * 60 * 1000;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   GET /api/rates
-   ───────────────────────────────────────────────────────────── */
+/* 各銀行最新匯率 */
 async function fetchRates({ onSlow } = {}) {
-  if (USE_MOCK) {
-    const res  = await _fetchWithTimeout('data/mock-rates.json', { onSlow });
-    const data = await res.json();
-    return data;
-  }
-
-  const res  = await _fetchWithTimeout(`${API_BASE}/api/rates`, { onSlow });
-  const data = await res.json();
-
-  const ok = await _verifyChecksum(data);
-  if (!ok) {
-    console.error('[Security] checksum mismatch — refusing to render');
-    throw new Error('資料完整性驗證失敗，請重新整理頁面');
-  }
-
-  return data;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   GET /api/rates/history
-   ───────────────────────────────────────────────────────────── */
-async function fetchHistory(currency = 'JPY', days = 365, { onSlow } = {}) {
-  if (USE_MOCK) {
-    return { currency, data: generateMockHistory(currency, days) };
-  }
-  const res = await _fetchWithTimeout(
-    `${API_BASE}/api/rates/history?currency=${currency}&days=${days}`,
-    { onSlow }
-  );
+  const res = await _fetchWithTimeout(DATA_BASE + 'rates.json', { onSlow });
   return res.json();
 }
 
-/* ── Mock history generator ── */
-function generateMockHistory(currency = 'JPY', days = 365) {
-  const today = new Date();
-  const data  = [];
-  const config = {
-    JPY: { base: 0.213, volatility: 0.004, trend: -0.008 },
-    USD: { base: 31.5,  volatility: 0.3,   trend: 0.5    },
-  };
-  const cfg = config[currency] || config.JPY;
-  let rate   = cfg.base;
-
-  for (let i = days; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    if (d.getDay() === 0 || d.getDay() === 6) continue;
-    const change = (Math.random() - 0.499) * cfg.volatility + (cfg.trend / days);
-    rate = Math.max(cfg.base * 0.85, Math.min(cfg.base * 1.15, rate + change));
-    data.push({
-      date:      d.toISOString().split('T')[0],
-      spot_buy:  +( rate * 0.994).toFixed(4),
-      spot_sell: +(rate * 1.006).toFixed(4),
-    });
+/* 歷史走勢（各銀行即期平均，每日一筆）；尚無資料的幣別回傳空陣列 */
+async function fetchHistory(currency = 'JPY', days = 365, { onSlow } = {}) {
+  let data = [];
+  try {
+    const res = await _fetchWithTimeout(`${DATA_BASE}history/${currency}.json`, { onSlow });
+    data = (await res.json()).data || [];
+  } catch (err) {
+    if (!String(err.message).includes('404')) throw err;
   }
-  return data;
+  const cutoff = new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
+  return { currency, data: data.filter(d => d.date >= cutoff) };
 }
 
 /* ── Static JSON files ── */
 async function fetchCreditCards() {
   try {
-    const res = await _fetchWithTimeout('data/credit-cards.json');
+    const res = await _fetchWithTimeout(DATA_BASE + 'credit-cards.json');
     return res.json();
   } catch (err) {
     console.error('fetchCreditCards:', err);
@@ -170,7 +85,7 @@ async function fetchCreditCards() {
 
 async function fetchBankFees() {
   try {
-    const res = await _fetchWithTimeout('data/bank-fees.json');
+    const res = await _fetchWithTimeout(DATA_BASE + 'bank-fees.json');
     return res.json();
   } catch (err) {
     console.error('fetchBankFees:', err);
