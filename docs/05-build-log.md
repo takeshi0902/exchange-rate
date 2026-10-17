@@ -12,3 +12,4 @@
 | 2026-10-18 | 1（實驗） | 開啟 Cloudflare Web Analytics（`layout.js` 全站注入，本機不計入），已實測 beacon 送出統計；隱私權政策依實際情況重寫（移除未使用的 GA／AdSense／聯盟行銷描述，補上 Cloudflare、Google Fonts、jsDelivr）；`_headers` 註記日後 CSP 需放行的網域 |
 | 2026-10-18 | 1（實驗） | Google Search Console 完成驗證（網址前置字元，HTML 檔案 `site/googleb9690c46a79fca48.html`，勿刪）；新增 sitemap.xml；退稅文章已要求建立索引 |
 | 2026-10-18 | 5（提前） | 後端改為 GitHub Actions 每小時產生靜態 JSON（ADR 0004）：新增 `build_data.py`（含跨銀行異常值檢查、失敗沿用舊資料、Discord 通知）、離線測試 6 項、workflow、部署前資料檢查；移除 FastAPI／Render／mock；前端改讀 `data/*.json`、走勢頁加入「累積中」狀態；已以本機實抓資料部署一次 |
+| 2026-10-18 | 5（提前） | 推上 GitHub（公開，推送前移除個人資訊並改用 noreply 信箱）；設定 Cloudflare secrets；GitHub Actions 全流程首次成功（11 家 ok，data 分支開始累積，網站自動部署）；workflow 部署失敗時改以 annotation 公開錯誤；actions 升級 v7 |
