@@ -1,38 +1,90 @@
 [
   {
-    "bank": "台灣銀行", "fee_twd": 200,
-    "free_condition": "無",
-    "note": "臨櫃換匯手續費",
-    "confirmed_date": "2026-05-01"
+    "bank": "國泰世華",
+    "counter_buy": "現金繳款 NT$200／帳戶扣款 NT$100",
+    "account_withdraw": "按即期與現鈔賣出匯差計收，最低 NT$100",
+    "quality": "官方",
+    "source_url": "https://cathaybk.com.tw/cathaybk/personal/about/news/charge-standard/foreigncurrency_cash",
+    "confirmed_date": "2026-10-18"
   },
   {
-    "bank": "兆豐銀行", "fee_twd": 300,
-    "free_condition": "透過網路銀行換匯免手續費",
-    "note": "臨櫃 NT$300，網銀免費",
-    "confirmed_date": "2026-05-01"
+    "bank": "台新銀行",
+    "counter_buy": "待確認",
+    "account_withdraw": "外幣 ATM：匯差 × 0.5，最低 NT$100；臨櫃按全額匯差",
+    "quality": "官方",
+    "source_url": "https://www.taishinbank.com.tw/TSB/personal/digital/Digital-Platform/atm/atm",
+    "confirmed_date": "2026-10-18"
   },
   {
-    "bank": "玉山銀行", "fee_twd": 150,
-    "free_condition": "玉山 Smart 帳戶每月免費 6 次",
-    "note": "一般臨櫃 NT$150",
-    "confirmed_date": "2026-05-01"
+    "bank": "兆豐銀行",
+    "counter_buy": "免手續費",
+    "account_withdraw": "酌收提領手續費，最低 NT$100",
+    "quality": "第三方",
+    "source_url": "https://www.nownews.com/news/2783863",
+    "confirmed_date": "2026-10-18"
   },
   {
-    "bank": "國泰世華", "fee_twd": 200,
-    "free_condition": "KOKO 帳戶免手續費",
-    "note": "臨櫃 NT$200",
-    "confirmed_date": "2026-05-01"
+    "bank": "華南銀行",
+    "counter_buy": "每筆 NT$100（人民幣除外）",
+    "account_withdraw": "待確認",
+    "quality": "第三方",
+    "source_url": "https://roo.cash/blog/travel-how-to-exchange-money",
+    "confirmed_date": "2026-10-18"
   },
   {
-    "bank": "合作金庫", "fee_twd": 300,
-    "free_condition": "無",
-    "note": "臨櫃換匯手續費",
-    "confirmed_date": "2026-05-01"
+    "bank": "永豐銀行",
+    "counter_buy": "每筆 NT$100",
+    "account_withdraw": "待確認（各來源說法不一）",
+    "quality": "第三方",
+    "source_url": "https://roo.cash/blog/travel-how-to-exchange-money",
+    "confirmed_date": "2026-10-18"
   },
   {
-    "bank": "第一銀行", "fee_twd": 200,
-    "free_condition": "e 指神通網路銀行免手續費",
-    "note": "臨櫃 NT$200，網銀免費",
-    "confirmed_date": "2026-05-01"
+    "bank": "台北富邦",
+    "counter_buy": "非本行客戶 NT$100，存戶有減免",
+    "account_withdraw": "按匯差計收，最低 NT$100",
+    "quality": "第三方",
+    "source_url": "https://uptogo.com.tw/財經/富邦怎麼領外幣？/",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "第一銀行",
+    "counter_buy": "每筆 NT$100（僅單一來源）",
+    "account_withdraw": "按匯差計收，最低 NT$200（僅單一來源）",
+    "quality": "待確認",
+    "source_url": "https://uptogo.com.tw/財經/一銀外幣提款手續費？/",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "玉山銀行",
+    "counter_buy": "待確認",
+    "account_withdraw": "按匯差計收，最低 NT$100",
+    "quality": "待確認",
+    "source_url": "https://uptogo.com.tw/財經/外幣帳戶的錢怎麼領？/",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "合作金庫",
+    "counter_buy": "本行客戶多免收或減收",
+    "account_withdraw": "按匯差計收，最低約 NT$100",
+    "quality": "待確認",
+    "source_url": "https://uptogo.com.tw/財經/合庫換外幣要手續費嗎？/",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "彰化銀行",
+    "counter_buy": "待確認",
+    "account_withdraw": "待確認",
+    "quality": "待確認",
+    "source_url": "",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "土地銀行",
+    "counter_buy": "待確認",
+    "account_withdraw": "待確認",
+    "quality": "待確認",
+    "source_url": "",
+    "confirmed_date": "2026-10-18"
   }
 ]

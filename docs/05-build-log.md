@@ -13,3 +13,4 @@
 | 2026-10-18 | 1（實驗） | Google Search Console 完成驗證（網址前置字元，HTML 檔案 `site/googleb9690c46a79fca48.html`，勿刪）；新增 sitemap.xml；退稅文章已要求建立索引 |
 | 2026-10-18 | 5（提前） | 後端改為 GitHub Actions 每小時產生靜態 JSON（ADR 0004）：新增 `build_data.py`（含跨銀行異常值檢查、失敗沿用舊資料、Discord 通知）、離線測試 6 項、workflow、部署前資料檢查；移除 FastAPI／Render／mock；前端改讀 `data/*.json`、走勢頁加入「累積中」狀態；已以本機實抓資料部署一次 |
 | 2026-10-18 | 5（提前） | 推上 GitHub（公開，推送前移除個人資訊並改用 noreply 信箱）；設定 Cloudflare secrets；GitHub Actions 全流程首次成功（11 家 ok，data 分支開始累積，網站自動部署）；workflow 部署失敗時改以 annotation 公開錯誤；actions 升級 v7 |
+| 2026-10-18 | 內容 | 新增 3 篇文章（刷卡 vs 換現鈔、三角換匯、不靠預測的換匯方法），數字以 2026-10-18 實抓牌告計算並附來源；文章樣式移入 style.css；換外幣現鈔手續費表改為「臨櫃買現鈔／外幣帳戶領現鈔」兩欄，逐家查證並標示官方／第三方／待確認（僅國泰、台新有官方資料）；sitemap 加入新文章 |

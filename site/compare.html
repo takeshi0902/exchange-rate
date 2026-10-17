@@ -22,6 +22,7 @@
   .legend-item { display: flex; align-items: center; gap: 4px; }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
   .bank-col { font-weight: 600; white-space: nowrap; }
+  #feesTable td.fee-cell { white-space: normal; min-width: 150px; font-family: var(--font-body); font-size: 14px; }
 </style>
 </head>
 <body>
@@ -75,26 +76,28 @@
 
   <!-- Bank fees note -->
   <div class="card mt-24">
-    <div class="card-header"><h2>臨櫃換匯手續費參考</h2><span class="badge badge-stale">資料待查證</span></div>
-    <div class="alert alert-warning" style="margin:12px 16px 0">這張表是早期人工整理、沒有附來源的資料，尚未和銀行官網核對，請勿作為依據。</div>
+    <div class="card-header"><h2>換外幣現鈔的手續費</h2></div>
+    <div class="card-body" style="padding-bottom:0">
+      <p class="text-muted" style="font-size:14px">除了匯率，換現鈔還可能有兩種費用：<b>臨櫃用台幣直接買現鈔</b>的手續費，以及<b>從外幣帳戶領出現鈔</b>時要補的匯差（即期和現鈔匯率的差價）。
+      只有標示「官方」的資料已和銀行官網核對，其他請在臨櫃前向銀行確認。</p>
+    </div>
     <div class="table-wrap">
       <table id="feesTable">
         <thead>
           <tr>
             <th>銀行</th>
-            <th>手續費</th>
-            <th>免費條件</th>
-            <th>備註</th>
-            <th>最後確認</th>
+            <th>臨櫃用台幣買現鈔</th>
+            <th>外幣帳戶領現鈔</th>
+            <th>資料來源</th>
           </tr>
         </thead>
         <tbody id="feesBody">
-          <tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted)">載入中...</td></tr>
+          <tr><td colspan="4" class="text-center text-muted">載入中...</td></tr>
         </tbody>
       </table>
     </div>
     <div style="padding:10px 16px;font-size:11px;color:var(--text-light)">
-      ⚠️ 手續費資料每季手動確認一次，最終以各銀行現場公告為準。
+      資料查證日期 2026-10-18，人工整理，最終以各銀行現場公告為準。
     </div>
   </div>
 
@@ -203,13 +206,15 @@ function renderTable() {
 
 async function renderFees() {
   const fees = await fetchBankFees();
+  const badge = { '官方': 'badge-ok', '第三方': 'badge-stale', '待確認': 'badge-error' };
   document.getElementById('feesBody').innerHTML = fees.map(f => `
     <tr>
       <td class="bank-col">${f.bank}</td>
-      <td>NT$${f.fee_twd}</td>
-      <td>${f.free_condition}</td>
-      <td style="color:var(--text-muted)">${f.note}</td>
-      <td class="update-time">${f.confirmed_date}</td>
+      <td class="fee-cell">${f.counter_buy}</td>
+      <td class="fee-cell">${f.account_withdraw}</td>
+      <td class="fee-cell"><span class="badge ${badge[f.quality] || ''}">${f.quality}</span>
+        ${f.source_url ? `<a href="${f.source_url}" target="_blank" rel="noopener">來源</a>` : ''}
+        <span class="update-time">${f.confirmed_date}</span></td>
     </tr>`).join('');
 }
 
