@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /api/
+Disallow: /api/rates
+Disallow: /api/rates/history
+Disallow: /api/usd-jpy
+Disallow: /api/status
+
+# Allow all static content
+Allow: /
+
+Sitemap: https://yourdomain.com/sitemap.xml

@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+
+# 環境設定（含 token/webhook，不能進 repo）
+.env
+.env.local
+.env.*.local
+
+# 資料庫（Render 掛 disk，不進 repo）
+*.db
+*.sqlite
+*.sqlite3
+
+# Playwright 瀏覽器快取
+playwright-browsers/
+ms-playwright/
+
+# 爬蟲快取
+backend/cache/
+
+# 系統檔
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 編輯器
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 測試產出
+.pytest_cache/
+htmlcov/
+.coverage
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
+
+# Python 虛擬環境
+.venv/
+venv/

@@ -1,0 +1,68 @@
+[
+  {
+    "bank": "國泰世華",
+    "card": "CUBE 卡",
+    "overseas_fee_pct": 1.5,
+    "cashback_pct": 3,
+    "cashback": "切換「趣旅行」方案，海外實體消費 3%（Level 2：國泰帳戶自扣或 App 繳卡費）",
+    "valid_until": "2026-12-31",
+    "source": "第三方整理",
+    "source_url": "https://www.beurlife.com/2021/08/cathay-bank-cube-credit-card.html",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "台北富邦",
+    "card": "台北富邦J卡",
+    "overseas_fee_pct": 1.5,
+    "cashback_pct": 3,
+    "cashback": "日本、韓國、泰國消費 3%（需設定自動扣繳或電子帳單）",
+    "valid_until": "2026-12-31",
+    "source": "第三方整理",
+    "source_url": "https://www.money101.com.tw/%E4%BF%A1%E7%94%A8%E5%8D%A1/%E7%94%A2%E5%93%81/%E5%8F%B0%E5%8C%97%E5%AF%8C%E9%82%A6J%E5%8D%A1",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "中國信託",
+    "card": "LINE Pay 卡",
+    "overseas_fee_pct": 1.5,
+    "cashback_pct": 2.8,
+    "cashback": "國外實體商店 2.8% LINE POINTS（一般 1% ＋ 國外加碼 1.8%），需先綁定 LINE Pay",
+    "valid_until": "",
+    "source": "第三方整理",
+    "source_url": "https://www.money101.com.tw/blog/%E4%B8%AD%E4%BF%A1linepay%E5%8D%A1-2026",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "玉山銀行",
+    "card": "Pi 拍錢包信用卡",
+    "overseas_fee_pct": 1.5,
+    "cashback_pct": 1,
+    "cashback": "國內外一般消費 1% P幣（需帳單 e 化）；海外最高 3% 的加碼活動已於 2026-08-31 結束",
+    "valid_until": "",
+    "source": "第三方整理",
+    "source_url": "https://www.money101.com.tw/信用卡/產品/玉山銀行pi拍錢包信用卡",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "台新銀行",
+    "card": "台新 Richart 卡（原 @GoGo 卡）",
+    "overseas_fee_pct": 1.5,
+    "cashback_pct": null,
+    "cashback": "待確認：2025-09-01 更名後的海外回饋條件尚未查到官方資料",
+    "valid_until": "",
+    "source": "第三方整理",
+    "source_url": "https://www.money101.com.tw/信用卡/產品/台新銀行gogo悠遊御璽卡",
+    "confirmed_date": "2026-10-18"
+  },
+  {
+    "bank": "聯邦銀行",
+    "card": "賴點卡",
+    "overseas_fee_pct": 1.5,
+    "cashback_pct": null,
+    "cashback": "待確認：2026 上半年國外 3% 無上限活動已於 2026-06-30 結束，下半年條件尚未查到",
+    "valid_until": "",
+    "source": "第三方整理",
+    "source_url": "https://udn.com/news/story/7238/9219160",
+    "confirmed_date": "2026-10-18"
+  }
+]

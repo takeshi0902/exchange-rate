@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角換匯試算器 — 台幣換日幣哪條路線省錢？</title>
+<meta name="description" content="三角換匯試算：台幣直接換日幣 vs 台幣→美元→日幣，自動比較哪條路線今天最划算。">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .route-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+  @media (max-width: 600px) { .route-grid { grid-template-columns: 1fr; } }
+  .route-card {
+    border: 2px solid var(--border); border-radius: var(--radius);
+    padding: 20px; background: var(--card); position: relative;
+  }
+  .route-card.winner {
+    border-color: var(--success); background: var(--success-bg);
+  }
+  .route-label {
+    font-size: 13px; font-weight: 700; color: var(--text-muted);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+  }
+  .route-card.winner .route-label { color: var(--success); }
+  .route-jpy  { font-size: 32px; font-weight: 700; color: var(--text); }
+  .route-rate { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.7; }
+  .winner-badge {
+    position: absolute; top: -10px; right: 12px;
+    background: var(--success); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 2px 10px;
+    border-radius: 12px;
+  }
+  .diff-bar {
+    text-align: center; padding: 20px;
+    font-size: 16px; color: var(--text-muted);
+  }
+  .diff-value { font-size: 24px; font-weight: 700; color: var(--primary); }
+  .step-list { list-style: none; counter-reset: step; }
+  .step-list li {
+    counter-increment: step;
+    padding: 10px 0 10px 36px; position: relative;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 14px;
+  }
+  .step-list li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bank-select-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .bank-select-row .form-group { flex: 1; min-width: 140px; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="page-hero">
+  <h1>三角換匯試算器</h1>
+  <p>台幣直接換日幣 vs 台幣→美元→日幣，自動比較今天哪條路線最划算</p>
+</div>
+
+<div class="container page-body">
+
+  <div class="card">
+    <div class="card-header"><h2>試算設定</h2></div>
+    <div class="card-body">
+      <div class="calc-form">
+        <div class="form-group">
+          <label class="form-label">台幣金額（TWD）</label>
+          <input type="number" class="form-input" id="twdAmount" value="100000"
+                 placeholder="例：100000" min="1000" step="1000">
+        </div>
+
+        <div>
+          <div class="form-label" style="margin-bottom:10px">選擇銀行</div>
+          <div class="bank-select-row">
+            <div class="form-group">
+              <label class="form-label">路線 A：換日幣的銀行</label>
+              <select class="form-select" id="bankA"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">路線 B：換美元的銀行</label>
+              <select class="form-select" id="bankB"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">美元/日幣 即時匯率（USD/JPY）</label>
+          <input type="number" class="form-input" id="usdJpy" value="154.82"
+                 placeholder="例：154.82" step="0.01">
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">
+            資料來源：各銀行牌告匯率平均（每小時更新）
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calculate()">開始試算</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="results" style="margin-top:24px"></div>
+
+  <!-- 說明 -->
+  <div class="card mt-24">
+    <div class="card-header"><h2>三角換匯是什麼？</h2></div>
+    <div class="card-body">
+      <div style="font-size:14px;color:var(--text-muted);line-height:1.8">
+        <p>三角換匯是指不直接以台幣換日幣，而是先換成美元，再用美元換日幣。</p>
+        <p style="margin-top:12px">
+          <strong>路線 A（直接）：</strong>台幣 → 日幣（一次換匯）<br>
+          <strong>路線 B（三角）：</strong>台幣 → 美元 → 日幣（兩次換匯）
+        </p>
+        <p style="margin-top:12px">
+          三角換匯有時候比較划算，有時候反而更貴，取決於當下的匯率差距。
+          本工具幫您即時計算，省去複雜的手動換算。
+        </p>
+        <div class="alert alert-warning" style="margin-top:16px">
+          ⚠️ 路線 B 需要跑兩次換匯，如果金額小（建議 3 萬台幣以上），
+          換匯次數帶來的手續費可能吃掉差距。計算結果已排除手續費，請自行評估。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ 試算結果僅供參考，實際匯率以各銀行現場公告為準。USD/JPY 匯率隨時波動，請確認最新數字後再決定換匯路線。
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="js/layout.js"></script>
+<script src="js/api.js"></script>
+<script>
+let ratesData = null;
+
+async function init() {
+  try {
+    ratesData = await fetchRates({
+      onSlow: () => {
+        document.getElementById('results').innerHTML =
+          '<div style="color:var(--text-muted);padding:8px 0">載入中，請稍候...</div>';
+      },
+    });
+    populateBankSelects(ratesData.rates);
+    if (ratesData.usd_jpy) {
+      document.getElementById('usdJpy').value = ratesData.usd_jpy;
+    }
+    calculate();
+  } catch (e) {
+    showError(document.getElementById('results'), e, '功能暫時無法使用，請稍後再試');
+  }
+}
+
+function populateBankSelects(banks) {
+  const selectA = document.getElementById('bankA');
+  const selectB = document.getElementById('bankB');
+  // Best sell for A (lowest spot_sell JPY)
+  const { bestBank: bestJpySell } = getBestRate(banks, 'JPY', 'spot_sell');
+  const { bestBank: bestUsdSell } = getBestRate(banks, 'USD', 'spot_sell');
+
+  banks.forEach(b => {
+    const rJpy = b.JPY;
+    const rUsd = b.USD;
+    if (rJpy?.spot_sell != null) {
+      const opt = new Option(`${b.bank}（即期賣出 ${rJpy.spot_sell.toFixed(4)}）`, b.bank_code);
+      if (b.bank_code === bestJpySell) opt.selected = true;
+      selectA.add(opt);
+    }
+    if (rUsd?.spot_sell != null) {
+      const opt = new Option(`${b.bank}（即期賣出 USD ${rUsd.spot_sell.toFixed(3)}）`, b.bank_code);
+      if (b.bank_code === bestUsdSell) opt.selected = true;
+      selectB.add(opt);
+    }
+  });
+}
+
+function calculate() {
+  if (!ratesData) return;
+  const twd    = parseFloat(document.getElementById('twdAmount').value) || 0;
+  const usdJpy = parseFloat(document.getElementById('usdJpy').value)   || 0;
+  const bankACode = document.getElementById('bankA').value;
+  const bankBCode = document.getElementById('bankB').value;
+
+  const bankA = ratesData.rates.find(b => b.bank_code === bankACode);
+  const bankB = ratesData.rates.find(b => b.bank_code === bankBCode);
+
+  if (!bankA || !bankB || twd <= 0 || usdJpy <= 0) return;
+
+  // Route A: TWD → JPY directly (buy JPY at bank's spot_sell price)
+  const jpySell = bankA.JPY.spot_sell;
+  const jpyA    = twd / jpySell;
+
+  // Route B: TWD → USD (buy USD at bank's spot_sell) → JPY (USD × USD/JPY)
+  const usdSell = bankB.USD.spot_sell;
+  const usd     = twd / usdSell;
+  const jpyB    = usd * usdJpy;
+
+  const winner  = jpyB > jpyA ? 'B' : 'A';
+  const diff    = Math.abs(jpyB - jpyA);
+  const diffPct = (diff / Math.min(jpyA, jpyB) * 100).toFixed(2);
+
+  document.getElementById('results').innerHTML = `
+    <div class="route-grid">
+      <div class="route-card${winner === 'A' ? ' winner' : ''}">
+        ${winner === 'A' ? '<div class="winner-badge">✓ 今日較划算</div>' : ''}
+        <div class="route-label">🇹🇼 路線 A：直接換日幣</div>
+        <div class="route-jpy">¥ ${Math.floor(jpyA).toLocaleString()}</div>
+        <div class="route-rate">
+          銀行：${bankA.bank}<br>
+          即期賣出：${jpySell.toFixed(4)} TWD/JPY<br>
+          換匯公式：${twd.toLocaleString()} ÷ ${jpySell.toFixed(4)}
+        </div>
+      </div>
+
+      <div class="route-card${winner === 'B' ? ' winner' : ''}">
+        ${winner === 'B' ? '<div class="winner-badge">✓ 今日較划算</div>' : ''}
+        <div class="route-label">🔺 路線 B：台幣→美元→日幣</div>
+        <div class="route-jpy">¥ ${Math.floor(jpyB).toLocaleString()}</div>
+        <div class="route-rate">
+          換美元銀行：${bankB.bank}（賣出 ${usdSell.toFixed(3)}）<br>
+          取得美元：USD ${usd.toFixed(2)}<br>
+          USD/JPY：${usdJpy}
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-bar">
+      路線差距：<span class="diff-value">¥ ${Math.floor(diff).toLocaleString()}</span>
+      <span style="font-size:14px">（${diffPct}%）</span>
+    </div>
+
+    <div class="verdict">
+      🏆 今日建議：路線 ${winner} 多換
+      <strong>¥ ${Math.floor(diff).toLocaleString()} 日幣</strong>
+      （以台幣 ${twd.toLocaleString()} 計算）
+    </div>
+
+    <div class="card mt-16">
+      <div class="card-header"><h2>路線 B 操作步驟</h2></div>
+      <div class="card-body">
+        <ul class="step-list">
+          <li>至 <strong>${bankB.bank}</strong> 以台幣買入美元<br>
+              <span style="color:var(--text-muted)">
+                台幣 ${twd.toLocaleString()} ÷ ${usdSell.toFixed(3)} = <strong>USD ${usd.toFixed(2)}</strong>
+              </span>
+          </li>
+          <li>持美元至日本，以 ATM 或換匯所換日幣<br>
+              <span style="color:var(--text-muted)">或直接在台灣換成日幣（美元→日幣牌告）</span>
+          </li>
+          <li>參考匯率 USD/JPY = ${usdJpy}，可換得約 <strong>¥ ${Math.floor(jpyB).toLocaleString()}</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="font-size:11px;color:var(--text-light);margin-top:12px">
+      ※ 試算結果僅供參考，不構成換匯建議。路線 B 需執行兩次換匯，實際成本受手續費、臨櫃限額及市場即時匯率影響。
+      USD/JPY 以各銀行牌告即期賣出平均推算，與 Wise／銀行間匯率可能存在差異。
+    </p>`;
+}
+
+// Live recalculate
+['twdAmount', 'usdJpy', 'bankA', 'bankB'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', calculate);
+  document.getElementById(id)?.addEventListener('change', calculate);
+});
+
+init();
+</script>
+</body>
+</html>

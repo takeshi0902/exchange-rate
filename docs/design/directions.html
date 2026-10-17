@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>設計方向比較</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+  :root { --page: #e9eaec; --ink: #1d1f22; --muted: #5a5f66; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--page); color: var(--ink); font-family: 'Noto Sans TC', sans-serif; padding: 24px 16px 64px; }
+  .intro { max-width: 1240px; margin: 0 auto 24px; }
+  .intro h1 { font-size: 24px; margin-bottom: 6px; }
+  .intro p { color: var(--muted); font-size: 15px; line-height: 1.7; }
+  .grid { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; align-items: start; }
+  .option > h2 { font-size: 18px; margin-bottom: 4px; }
+  .option > .why { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; min-height: 4.8em; }
+  .frame { border-radius: 18px; overflow: hidden; box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 12px 32px -12px rgba(0,0,0,.25); max-width: 400px; }
+  .swatches { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .sw { font-size: 11px; display: flex; align-items: center; gap: 4px; color: var(--muted); }
+  .sw i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid rgba(0,0,0,.15); }
+  .note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  /* ───────── A：機場翻牌看板 ───────── */
+  .a { --sign: #ffc20e; --board: #2b2d30; --flap: #f4f4f2; --a-ink: #16181a; --a-bg: #f7f7f5; --best: #0a7d47;
+       background: var(--a-bg); color: var(--a-ink); }
+  .a nav { background: var(--sign); padding: 12px 16px; font-weight: 900; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .a nav span { font-weight: 500; font-size: 13px; }
+  .a .hero { padding: 20px 16px 24px; }
+  .a .hero h3 { font-size: 26px; font-weight: 900; line-height: 1.25; margin-bottom: 14px; }
+  .a .board { background: var(--board); border-radius: 6px; padding: 10px; display: grid; gap: 6px; }
+  .a .row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; color: #fff; font-size: 13px; }
+  .a .flaps { display: flex; gap: 3px; }
+  .a .flaps b { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px; width: 22px; text-align: center;
+                background: var(--flap); color: var(--a-ink); border-radius: 3px; line-height: 34px;
+                background-image: linear-gradient(to bottom, transparent 49%, rgba(0,0,0,.25) 50%, transparent 51%); }
+  .a .row.best .name::after { content: "最划算"; margin-left: 6px; background: var(--sign); color: var(--a-ink); font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 3px; }
+  .a .body { padding: 0 16px 24px; }
+  .a .btn { display: block; text-align: center; background: var(--a-ink); color: #fff; font-weight: 700; padding: 13px; border-radius: 6px; margin-bottom: 20px; }
+  .a .article { border-top: 3px solid var(--a-ink); padding-top: 10px; }
+  .a .article small { font-size: 12px; color: #5c6066; }
+  .a .article p { font-weight: 700; font-size: 16px; line-height: 1.45; margin-top: 4px; }
+
+  /* ───────── B：護照內頁 ───────── */
+  .b { --cover: #1f4d3c; --page-b: #eef3ef; --guilloche: #c9dbd0; --stamp: #7a2e6e; --b-ink: #1b2620;
+       color: var(--b-ink); background-color: var(--page-b);
+       background-image: repeating-radial-gradient(circle at 80% -20%, transparent 0 9px, var(--guilloche) 9px 10px); }
+  .b nav { background: var(--cover); color: #e8d9a8; padding: 13px 16px; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 16px; letter-spacing: .08em; }
+  .b .hero { padding: 24px 16px 20px; position: relative; }
+  .b .hero h3 { font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 27px; line-height: 1.35; margin-bottom: 6px; }
+  .b .hero p { font-size: 14px; line-height: 1.7; color: #3e4a43; }
+  .b .stamp { position: absolute; right: 14px; top: 14px; transform: rotate(-12deg); border: 3px solid var(--stamp); color: var(--stamp);
+              border-radius: 50%; width: 84px; height: 84px; display: grid; place-content: center; text-align: center;
+              font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 14px; line-height: 1.2; opacity: .85; }
+  .b .stamp small { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 500; }
+  .b .page { margin: 0 16px; background: rgba(255,255,255,.75); border: 1px solid var(--guilloche); border-radius: 4px; }
+  .b .page div { display: flex; justify-content: space-between; padding: 11px 14px; border-bottom: 1px dashed var(--guilloche); font-size: 14px; }
+  .b .page div:last-child { border-bottom: 0; }
+  .b .page b { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; }
+  .b .page .best { color: var(--stamp); font-weight: 700; }
+  .b .body { padding: 18px 16px 24px; }
+  .b .btn { display: block; text-align: center; background: var(--cover); color: #fff; font-weight: 700; padding: 13px; border-radius: 999px; margin-bottom: 20px; }
+  .b .article small { font-size: 12px; color: #55635a; }
+  .b .article p { font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 17px; line-height: 1.5; margin-top: 4px; }
+
+  /* ───────── C：登機證 ───────── */
+  .c { --sky: #dfeaf6; --pass: #ffffff; --c-ink: #10233d; --route: #0057b8; --stub: #e2412e;
+       background: var(--sky); color: var(--c-ink); }
+  .c nav { padding: 14px 16px; font-weight: 900; font-size: 16px; color: var(--c-ink); }
+  .c .pass { margin: 4px 16px 0; background: var(--pass); border-radius: 14px; position: relative; }
+  .c .main { padding: 16px 18px 14px; }
+  .c .route { display: flex; align-items: baseline; justify-content: space-between; }
+  .c .code { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 56px; line-height: 1; letter-spacing: .01em; }
+  .c .plane { font-size: 20px; color: var(--route); }
+  .c .cities { display: flex; justify-content: space-between; font-size: 12px; color: #4d5d72; margin-top: 2px; }
+  .c .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-top: 14px; }
+  .c .fields small { display: block; font-size: 11px; color: #4d5d72; }
+  .c .fields b { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; }
+  .c .tear { height: 0; border-top: 2px dashed #b9c8da; margin: 0 14px; position: relative; }
+  .c .tear::before, .c .tear::after { content: ""; position: absolute; top: -11px; width: 20px; height: 20px; background: var(--sky); border-radius: 50%; }
+  .c .tear::before { left: -24px; } .c .tear::after { right: -24px; }
+  .c .stub { padding: 12px 18px 14px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .c .stub b { color: var(--stub); }
+  .c .body { padding: 20px 16px 24px; }
+  .c .hl { font-size: 22px; font-weight: 900; line-height: 1.35; margin-bottom: 14px; }
+  .c .btn { display: block; text-align: center; background: var(--route); color: #fff; font-weight: 700; padding: 13px; border-radius: 10px; margin-bottom: 20px; }
+  .c .article { background: var(--pass); border-radius: 10px; padding: 12px 14px; }
+  .c .article small { font-size: 12px; color: #4d5d72; }
+  .c .article p { font-weight: 700; font-size: 16px; line-height: 1.45; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="intro">
+  <h1>設計方向比較（手機版示意）</h1>
+  <p>三個方向都用同一份內容，只換視覺語言。數字只是示意，不是真實匯率。選好之後，我會把那個方向做成全站設計系統（顏色、字體、元件），再套到每一頁。</p>
+</div>
+
+<div class="grid">
+  <!-- A -->
+  <section class="option">
+    <h2>A　機場翻牌看板</h2>
+    <p class="why">用機場指標的黃色和翻牌看板呈現各家銀行的匯率。最有「出發」的感覺，數字非常好讀，最適合工具頁。</p>
+    <div class="frame a">
+      <nav>換匯比較網 <span>選單</span></nav>
+      <div class="hero">
+        <h3>今天在哪家銀行<br>換日幣最划算</h3>
+        <div class="board">
+          <div class="row best"><span class="name">台灣銀行</span><span class="flaps"><b>0</b><b>.</b><b>2</b><b>1</b><b>2</b><b>3</b></span></div>
+          <div class="row"><span class="name">兆豐銀行</span><span class="flaps"><b>0</b><b>.</b><b>2</b><b>1</b><b>2</b><b>6</b></span></div>
+          <div class="row"><span class="name">玉山銀行</span><span class="flaps"><b>0</b><b>.</b><b>2</b><b>1</b><b>3</b><b>1</b></span></div>
+        </div>
+      </div>
+      <div class="body">
+        <a class="btn">比較 6 家銀行</a>
+        <div class="article"><small>日本旅遊・退稅</small><p>日本退稅新制 2026：11/1 起改成「先付稅、出境再退」</p></div>
+      </div>
+    </div>
+    <div class="swatches">
+      <span class="sw"><i style="background:#ffc20e"></i>指標黃</span>
+      <span class="sw"><i style="background:#2b2d30"></i>看板灰</span>
+      <span class="sw"><i style="background:#f7f7f5"></i>底色</span>
+      <span class="sw"><i style="background:#16181a"></i>墨色</span>
+      <span class="sw"><i style="background:#0a7d47"></i>划算綠</span>
+    </div>
+    <p class="note">字體：思源黑體 ＋ Barlow Condensed（數字）</p>
+  </section>
+
+  <!-- B -->
+  <section class="option">
+    <h2>B　護照內頁</h2>
+    <p class="why">用台灣護照的墨綠色、內頁的防偽紋路，「最划算」以入境章的形式蓋上去。可信度最高，最適合文章和知識內容。</p>
+    <div class="frame b">
+      <nav>換匯比較網</nav>
+      <div class="hero">
+        <div class="stamp">最划算<small>BEST RATE</small></div>
+        <h3>出國前的<br>換匯功課</h3>
+        <p>匯率、刷卡、退稅，<br>出發前一次查清楚。</p>
+      </div>
+      <div class="page">
+        <div><span class="best">台灣銀行</span><b>0.2123</b></div>
+        <div><span>兆豐銀行</span><b>0.2126</b></div>
+        <div><span>玉山銀行</span><b>0.2131</b></div>
+      </div>
+      <div class="body">
+        <a class="btn">比較 6 家銀行</a>
+        <div class="article"><small>日本旅遊・退稅</small><p>日本退稅新制 2026：11/1 起改成「先付稅、出境再退」</p></div>
+      </div>
+    </div>
+    <div class="swatches">
+      <span class="sw"><i style="background:#1f4d3c"></i>護照綠</span>
+      <span class="sw"><i style="background:#eef3ef"></i>內頁</span>
+      <span class="sw"><i style="background:#c9dbd0"></i>防偽紋</span>
+      <span class="sw"><i style="background:#7a2e6e"></i>印章紫</span>
+      <span class="sw"><i style="background:#1b2620"></i>墨色</span>
+    </div>
+    <p class="note">字體：思源宋體（標題）＋ 思源黑體（內文）＋ Barlow Condensed（數字）</p>
+  </section>
+
+  <!-- C -->
+  <section class="option">
+    <h2>C　登機證</h2>
+    <p class="why">把「台幣換日幣」做成一張登機證：TWD → JPY 是航線，匯率和銀行是登機資訊。最有記憶點，社群分享時最容易被認出來。</p>
+    <div class="frame c">
+      <nav>換匯比較網</nav>
+      <div class="pass">
+        <div class="main">
+          <div class="route"><span class="code">TWD</span><span class="plane">✈</span><span class="code">JPY</span></div>
+          <div class="cities"><span>新台幣</span><span>日圓</span></div>
+          <div class="fields">
+            <div><small>最佳銀行</small><b>台灣銀行</b></div>
+            <div><small>現鈔賣出</small><b>0.2123</b></div>
+            <div><small>1 萬台幣可換</small><b>¥47,103</b></div>
+            <div><small>更新</small><b>10:00</b></div>
+          </div>
+        </div>
+        <div class="tear"></div>
+        <div class="stub"><span>比最貴的銀行省</span><b>NT$ 38</b></div>
+      </div>
+      <div class="body">
+        <p class="hl">換日幣、刷卡、退稅<br>出發前查這裡</p>
+        <a class="btn">比較 6 家銀行</a>
+        <div class="article"><small>日本旅遊・退稅</small><p>日本退稅新制 2026：11/1 起改成「先付稅、出境再退」</p></div>
+      </div>
+    </div>
+    <div class="swatches">
+      <span class="sw"><i style="background:#dfeaf6"></i>天空藍</span>
+      <span class="sw"><i style="background:#ffffff"></i>票面白</span>
+      <span class="sw"><i style="background:#10233d"></i>深藍墨</span>
+      <span class="sw"><i style="background:#0057b8"></i>航線藍</span>
+      <span class="sw"><i style="background:#e2412e"></i>票根紅</span>
+    </div>
+    <p class="note">字體：思源黑體 ＋ Barlow Condensed（代碼、數字）</p>
+  </section>
+</div>
+</body>
+</html>

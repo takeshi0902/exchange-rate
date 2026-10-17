@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信用卡刷卡成本試算 — 換匯比較網</title>
+<meta name="description" content="在日本消費，刷卡和換現鈔哪個比較省？計入 1.5% 國外交易服務費與各卡海外回饋，算給你看。">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-top: 16px; }
+  .cc-result-card {
+    border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 16px; background: var(--card);
+    position: relative; transition: border-color .15s;
+  }
+  .cc-result-card.best-cc { border-color: var(--success); background: var(--success-bg); }
+  .cc-result-card.worst-cc { border-color: var(--border-light); opacity: .8; }
+  .cc-bank { font-size: 12px; color: var(--text-muted); }
+  .cc-name { font-size: 15px; font-weight: 700; margin: 2px 0 8px; }
+  .cc-cost { font-size: 22px; font-weight: 700; }
+  .cc-breakdown { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.7; }
+  .cc-badge { position: absolute; top: -9px; right: 10px; }
+  .fee-formula {
+    background: var(--border-light); border-radius: var(--radius-sm);
+    padding: 14px 16px; font-size: 13px; line-height: 1.9;
+    margin-top: 16px;
+  }
+  .formula-highlight { font-weight: 700; color: var(--primary); }
+  #cardTable td.cc-note { white-space: normal; min-width: 240px; font-family: var(--font-body); font-size: 14px; color: var(--text-muted); }
+  #cardTable td { font-family: var(--font-body); font-size: 15px; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="page-hero">
+  <h1>信用卡刷卡成本試算</h1>
+  <p>輸入日幣消費金額，比較現金換匯 vs 各張信用卡的實際成本</p>
+</div>
+
+<div class="container page-body">
+
+  <div class="card">
+    <div class="card-header"><h2>試算設定</h2></div>
+    <div class="card-body">
+      <div class="calc-form">
+        <div class="form-group">
+          <label class="form-label">消費金額（日幣 JPY）</label>
+          <input type="number" class="form-input" id="jpyAmount" value="10000"
+                 placeholder="例：10000" min="100" step="100">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cashRate">換現鈔匯率（TWD/JPY 現鈔賣出）</label>
+          <input type="number" class="form-input" id="cashRate" placeholder="例：0.2083" step="0.0001">
+          <div class="update-time">已帶入今天現鈔賣出最便宜的銀行</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="spotRate">刷卡參考匯率（TWD/JPY 即期賣出）</label>
+          <input type="number" class="form-input" id="spotRate" placeholder="例：0.2065" step="0.0001">
+          <div class="update-time">卡組織匯率接近銀行即期匯率，以各銀行即期賣出平均估算</div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calculate()">比較所有信用卡</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="results" style="margin-top:24px"></div>
+
+  <!-- 計算公式說明 -->
+  <div class="card mt-24">
+    <div class="card-header"><h2>計算公式說明</h2></div>
+    <div class="card-body">
+      <div class="fee-formula">
+        <strong>換現鈔：</strong>日幣金額 × 銀行現鈔賣出匯率
+        <br><br>
+        <strong>刷卡：</strong>日幣金額 × 卡組織匯率 × (1 + <span class="formula-highlight">國外交易服務費 1.5%</span>) − 回饋
+        <br><br>
+        國外交易服務費 1.5% ＝ 卡組織（Visa、Mastercard、JCB）跨國清算費約 1% ＋ 發卡銀行服務費 0.5%。
+        卡組織匯率通常接近銀行即期匯率，本試算以各銀行即期賣出平均估算。
+      </div>
+
+      <div class="alert alert-info mt-16">
+        換現鈔要用現鈔賣出價，通常比即期貴；刷卡雖然多 1.5% 服務費，但有海外回饋的卡扣掉回饋後，可能比換現鈔便宜。
+        回饋標示「待確認」的卡，試算以 0% 計算。
+      </div>
+    </div>
+  </div>
+
+  <!-- 信用卡資料表 -->
+  <div class="card mt-24">
+    <div class="card-header"><h2>各卡海外手續費一覽</h2></div>
+    <div class="table-wrap">
+      <table id="cardTable">
+        <thead>
+          <tr>
+            <th>發卡銀行</th><th>卡片名稱</th>
+            <th>國外交易服務費</th><th>海外回饋</th><th>資料來源</th>
+          </tr>
+        </thead>
+        <tbody id="cardTableBody">
+          <tr><td colspan="5" class="text-center text-muted">載入中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:10px 16px;font-size:11px;color:var(--text-light)">
+      卡片資料為人工整理的第三方資料，尚未逐一核對銀行官網，以各銀行最新條款為準。
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ 本工具之試算結果僅供參考，實際刷卡成本依 Visa/Mastercard 當日換匯匯率及各銀行最終計算為準。
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="js/layout.js"></script>
+<script src="js/api.js"></script>
+<script>
+let cards     = null;
+let ratesData = null;
+
+async function init() {
+  const results = document.getElementById('results');
+  try {
+    [cards, ratesData] = await Promise.all([
+      fetchCreditCards(),
+      fetchRates({
+        onSlow: () => {
+          results.innerHTML =
+            '<div style="color:var(--text-muted);padding:8px 0">載入中，請稍候...</div>';
+        },
+      }),
+    ]);
+    const { best: bestCash } = getBestRate(ratesData.rates, 'JPY', 'cash_sell');
+    const spots = ratesData.rates.map(b => b.JPY?.spot_sell).filter(Boolean);
+    document.getElementById('cashRate').value = bestCash.toFixed(4);
+    document.getElementById('spotRate').value = (spots.reduce((a, b) => a + b, 0) / spots.length).toFixed(4);
+    renderCardTable(cards);
+    calculate();
+  } catch (e) {
+    showError(results, e, '功能暫時無法使用，請稍後再試');
+  }
+}
+
+function renderCardTable(cards) {
+  document.getElementById('cardTableBody').innerHTML = cards.map(c => `
+    <tr>
+      <td>${c.bank}</td>
+      <td><strong>${c.card}</strong></td>
+      <td>${c.overseas_fee_pct}%</td>
+      <td class="cc-note">${c.cashback}${c.valid_until ? `（至 ${c.valid_until}）` : ''}</td>
+      <td class="update-time"><a href="${c.source_url}" target="_blank" rel="noopener">${c.source}</a><br>${c.confirmed_date}</td>
+    </tr>`).join('');
+}
+
+function calculate() {
+  if (!cards) return;
+  const jpy      = parseFloat(document.getElementById('jpyAmount').value) || 0;
+  const cashRate = parseFloat(document.getElementById('cashRate').value)  || 0;
+  const spotRate = parseFloat(document.getElementById('spotRate').value)  || 0;
+  if (jpy <= 0 || cashRate <= 0 || spotRate <= 0) return;
+
+  // 換現鈔：日幣 × 現鈔賣出
+  const cashCost = jpy * cashRate;
+
+  // 刷卡：日幣 × 即期匯率 ×（1 ＋ 國外交易服務費 1.5%，已含卡組織 1% 與銀行 0.5%）－ 回饋
+  const results = cards.map(c => {
+    const gross_twd    = jpy * spotRate * (1 + c.overseas_fee_pct / 100);
+    const cashback_twd = gross_twd * (c.cashback_pct || 0) / 100;
+    const net_twd      = gross_twd - cashback_twd;
+    return { ...c, gross_twd, net_twd, extra_vs_cash: net_twd - cashCost };
+  });
+
+  results.sort((a, b) => a.net_twd - b.net_twd);
+
+  const minCost = results[0].net_twd;
+  const winner  = minCost < cashCost ? results[0] : null;
+  const fmt = (n) => Math.round(n).toLocaleString();
+
+  document.getElementById('results').innerHTML = `
+    <div class="section-title">試算結果</div>
+
+    <!-- Cash benchmark -->
+    <div class="result-panel${cashCost <= minCost ? ' success' : ' primary'}" style="margin-bottom:16px">
+      <div class="result-label">換現鈔（現鈔賣出 ${cashRate.toFixed(4)}）</div>
+      <div class="result-value">NT$ ${fmt(cashCost)} <small>買 ¥${jpy.toLocaleString()}</small></div>
+      ${cashCost <= minCost ? '<div class="result-sub text-success">今天換現鈔最划算</div>' : ''}
+    </div>
+
+    ${winner ? `<div class="verdict">
+      刷${winner.bank} ${winner.card}最省，比換現鈔少花 NT$ ${fmt(-winner.extra_vs_cash)}
+    </div>` : `<div class="verdict warn">
+      今天換現鈔比這些信用卡都划算
+    </div>`}
+
+    <div class="card-grid">
+      ${results.map((c, i) => {
+        const isBest = i === 0 && c.net_twd < cashCost;
+        const extra  = c.extra_vs_cash;
+        return `
+        <div class="cc-result-card${isBest ? ' best-cc' : ''}">
+          ${isBest ? '<div class="cc-badge"><span class="badge badge-best">✓ 最省</span></div>' : ''}
+          <div class="cc-bank">${c.bank}</div>
+          <div class="cc-name">${c.card}</div>
+          <div class="cc-cost">NT$ ${fmt(c.net_twd)}</div>
+          <div class="cc-breakdown">
+            國外交易服務費 ${c.overseas_fee_pct}%：NT$ ${fmt(c.gross_twd)}<br>
+            回饋 ${c.cashback_pct == null ? '待確認，以 0% 計算' : c.cashback_pct + '%'}<br>
+            和換現鈔比：<span class="${extra > 0 ? 'text-error' : 'text-success'}">
+              ${extra > 0 ? '多花' : '少花'} NT$ ${fmt(Math.abs(extra))}</span>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <p style="font-size:11px;color:var(--text-light);margin-top:14px">
+      ※ 試算僅供參考，不構成信用卡選用建議。實際刷卡金額依卡組織當日匯率與各銀行計算為準；
+      回饋多有門檻、上限或活動期限，請以各銀行最新公告為準。
+    </p>`;
+}
+
+['jpyAmount', 'cashRate', 'spotRate'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calculate);
+});
+
+init();
+</script>
+</body>
+</html>

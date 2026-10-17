@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>換匯比較網 — 台灣最即時銀行匯率比較</title>
+<meta name="description" content="整合兆豐、玉山、國泰世華、台新、富邦等 11 家銀行匯率，提供三角換匯試算、信用卡海外費用試算，找到最划算的換日幣方式。">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+  .home-section { padding: 40px 0 0; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .section-head .section-title { margin-bottom: 0; }
+  .last-update { font-size: 13px; color: var(--text-muted); }
+  .quick-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+  .quick-row .form-group { flex: 1; min-width: 200px; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<main>
+  <section class="home-hero">
+    <div>
+      <h1>出國換匯，<br>先查這張票</h1>
+      <p>比較 11 家銀行今天的日幣匯率，算出同樣的台幣能多換多少。刷卡、退稅的眉角也一起整理好。</p>
+      <div class="hero-cta">
+        <a href="compare.html" class="btn btn-primary">比較 11 家銀行</a>
+        <a href="articles/japan-tax-refund-2026.html" class="btn btn-outline">日本退稅新制</a>
+      </div>
+    </div>
+
+    <div class="pass is-loading" id="pass" aria-live="polite">
+      <div class="pass-main">
+        <div class="pass-route">
+          <span class="pass-code">TWD</span>
+          <span class="pass-plane" aria-hidden="true"><span>✈</span></span>
+          <span class="pass-code">JPY</span>
+        </div>
+        <div class="pass-cities"><span>新台幣</span><span>日圓</span></div>
+        <div class="pass-fields">
+          <div><small>今天最划算</small><b class="cn" id="passBank">—</b></div>
+          <div><small>即期賣出</small><b id="passRate">—</b></div>
+          <div><small>1 萬台幣可換</small><b id="passJpy">—</b></div>
+          <div><small>資料時間</small><b id="passTime">—</b></div>
+        </div>
+      </div>
+      <div class="pass-tear" aria-hidden="true"></div>
+      <div class="pass-stub">
+        <span>比最差的銀行多換</span>
+        <b id="passSave">—</b>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="home-section">
+      <div class="section-head">
+        <h2 class="section-title">今天各銀行的日幣匯率</h2>
+        <span class="last-update">更新於 <span id="lastUpdate">—</span></span>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table id="miniTable">
+            <thead>
+              <tr>
+                <th>銀行</th>
+                <th>即期買入</th>
+                <th>即期賣出</th>
+                <th>現鈔買入</th>
+                <th>現鈔賣出</th>
+                <th>更新時間</th>
+              </tr>
+            </thead>
+            <tbody id="miniTableBody">
+              <tr><td colspan="6" class="text-center text-muted">載入中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="update-time mt-8" id="unavailableNote"></p>
+      <a href="compare.html" class="btn btn-outline btn-sm mt-16">看完整比較表（含美元）</a>
+    </section>
+
+    <section class="home-section">
+      <h2 class="section-title">換匯工具</h2>
+      <div class="tool-grid">
+        <a href="compare.html" class="tool-card">
+          <div class="tool-title">匯率比較表</div>
+          <div class="tool-desc">比較各銀行日幣、美元匯率，自動標出最划算的銀行。</div>
+        </a>
+        <a href="triangle.html" class="tool-card">
+          <div class="tool-title">三角換匯試算</div>
+          <div class="tool-desc">台幣直接換日幣，還是先換美元再換日幣？算給你看今天哪條路比較省。</div>
+        </a>
+        <a href="credit-card.html" class="tool-card">
+          <div class="tool-title">刷卡 vs 換現金</div>
+          <div class="tool-desc">輸入消費金額，比較換現金和刷卡海外手續費，哪個比較省。</div>
+        </a>
+        <a href="history.html" class="tool-card">
+          <div class="tool-title">歷史走勢</div>
+          <div class="tool-desc">日幣對台幣近一年走勢，標出最低點，幫你判斷換匯時機。</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="home-section">
+      <h2 class="section-title">我要換多少日幣？</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="quick-row">
+            <div class="form-group">
+              <label class="form-label" for="quickTwd">準備多少台幣</label>
+              <input type="number" class="form-input" id="quickTwd" inputmode="numeric" placeholder="例：30000" value="30000">
+            </div>
+            <button class="btn btn-primary" onclick="quickCalc()">算算能換多少</button>
+          </div>
+          <div id="quickResult" class="mt-16"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section">
+      <h2 class="section-title">出發前必讀</h2>
+      <div class="article-list">
+        <a href="articles/japan-tax-refund-2026.html" class="article-card">
+          <div>
+            <div class="article-meta"><span>2026-10-17</span><span>日本旅遊・退稅</span></div>
+            <div class="article-title">日本退稅新制 2026：11/1 起改成「先付稅、出境再退」，出發前要知道的事</div>
+            <div class="article-excerpt">11 月 1 日起在日本購物要先付含稅價，購買後 90 天內出境時經海關確認才退稅。同一張收據少帶一件就全部不能退。</div>
+          </div>
+        </a>
+      </div>
+      <a href="articles/index.html" class="btn btn-outline btn-sm mt-16">所有文章</a>
+    </section>
+  </div>
+</main>
+
+<div id="footer-placeholder"></div>
+
+<script src="js/layout.js"></script>
+<script src="js/api.js"></script>
+<script>
+let ratesData = null;
+
+async function loadHomepage() {
+  const tbody = document.getElementById('miniTableBody');
+  try {
+    ratesData = await fetchRates();
+    renderPass(ratesData);
+    renderMiniTable(ratesData);
+    document.getElementById('unavailableNote').textContent = unavailableText(ratesData);
+    document.getElementById('lastUpdate').textContent = formatDateTime(ratesData.updated_at);
+  } catch (e) {
+    console.error(e);
+    document.getElementById('passBank').textContent = '暫時無資料';
+    tbody.innerHTML =
+      '<tr><td colspan="6" class="text-center text-error">匯率資料載入失敗，請重新整理頁面。</td></tr>';
+  }
+}
+
+/* 登機證：最划算的銀行、1 萬台幣可換多少、比最差的銀行多換多少 */
+function renderPass(data) {
+  const TWD = 10000;
+  const sells = data.rates
+    .filter(b => b.JPY && b.JPY.spot_sell != null)
+    .map(b => ({ bank: b.bank, rate: b.JPY.spot_sell, at: b.JPY.updated_at }));
+  if (!sells.length) return;
+  sells.sort((a, b) => a.rate - b.rate);
+  const best = sells[0], worst = sells[sells.length - 1];
+  const bestJpy  = Math.floor(TWD / best.rate);
+  const worstJpy = Math.floor(TWD / worst.rate);
+
+  document.getElementById('passBank').textContent = best.bank;
+  document.getElementById('passRate').textContent = best.rate.toFixed(4);
+  document.getElementById('passJpy').textContent  = '¥' + bestJpy.toLocaleString();
+  document.getElementById('passTime').textContent =
+    new Date(best.at).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+  document.getElementById('passSave').textContent = '¥' + (bestJpy - worstJpy).toLocaleString();
+  document.getElementById('pass').classList.remove('is-loading');
+}
+
+function renderMiniTable(data) {
+  const currency = 'JPY';
+  const { bestBank: bestBuy  } = getBestRate(data.rates, currency, 'spot_buy');
+  const { bestBank: bestSell } = getBestRate(data.rates, currency, 'spot_sell');
+
+  const tbody = document.getElementById('miniTableBody');
+  tbody.innerHTML = data.rates.map(b => {
+    const r = b[currency];
+    if (!r) return '';
+    const stale    = isStale(r.updated_at);
+    const rowClass = stale ? 'stale-row' : '';
+    const buyClass  = b.bank_code === bestBuy  ? 'best' : '';
+    const sellClass = b.bank_code === bestSell ? 'best' : '';
+    return `
+      <tr class="${rowClass}">
+        <td><strong>${b.bank}</strong></td>
+        <td class="${buyClass}">${formatRate(r.spot_buy,  currency)}</td>
+        <td class="${sellClass}">${formatRate(r.spot_sell, currency)}</td>
+        <td>${r.cash_buy  != null ? formatRate(r.cash_buy,  currency) : '<span class="unavail">—</span>'}</td>
+        <td>${r.cash_sell != null ? formatRate(r.cash_sell, currency) : '<span class="unavail">—</span>'}</td>
+        <td class="update-time${stale ? ' text-warning' : ''}">${formatTimeAgo(r.updated_at)}${stale ? '（資料過舊）' : ''}</td>
+      </tr>`;
+  }).join('');
+}
+
+function quickCalc() {
+  if (!ratesData) return;
+  try {
+    const twd      = parseFloat(document.getElementById('quickTwd').value) || 0;
+    const { best: bestSell, bestBank } = getBestRate(ratesData.rates, 'JPY', 'spot_sell');
+    const bankName = ratesData.rates.find(b => b.bank_code === bestBank)?.bank || '—';
+    const jpy      = twd / bestSell;
+    const el       = document.getElementById('quickResult');
+    el.innerHTML = `
+      <div class="result-panel success">
+        <div class="result-label">在${bankName}換（即期賣出 ${bestSell.toFixed(4)}）</div>
+        <div class="result-value">¥${Math.floor(jpy).toLocaleString()} <small>日圓</small></div>
+        <div class="result-sub"><a href="triangle.html">先換美元再換日幣會不會更多？</a></div>
+        <p class="update-time mt-8">試算僅供參考，實際匯率以銀行現場公告為準。</p>
+      </div>`;
+  } catch (e) {
+    console.error(e);
+    showError(document.getElementById('quickResult'), e, '試算功能暫時無法使用');
+  }
+}
+
+loadHomepage();
+</script>
+</body>
+</html>

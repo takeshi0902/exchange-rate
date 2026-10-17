@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日幣歷史走勢圖 — 換匯比較網</title>
+<meta name="description" content="台幣對日幣、美元近一年歷史走勢圖，標示最低點，幫助您判斷換匯時機。">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .period-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+  .period-btn {
+    padding: 5px 14px; border-radius: 16px;
+    border: 1.5px solid var(--border);
+    background: var(--card); color: var(--text-muted);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: all .15s;
+  }
+  .period-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .stat-row {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px; margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  .stat-card .slabel { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .stat-card .svalue { font-size: 20px; font-weight: 700; }
+  .stat-card .snote  { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+  .lowest-mark { color: var(--success); }
+  .highest-mark { color: var(--error); }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="page-hero">
+  <h1>歷史匯率走勢</h1>
+  <p>近一年日幣 / 美元對台幣走勢，標示最低換匯點</p>
+</div>
+
+<div class="container page-body">
+
+  <!-- Currency tabs -->
+  <div class="tabs" id="currencyTabs" style="margin-bottom:20px">
+    <button class="tab active" data-currency="JPY">🇯🇵 日幣 JPY/TWD</button>
+    <button class="tab" data-currency="USD">🇺🇸 美元 USD/TWD</button>
+  </div>
+
+  <!-- Stats row -->
+  <div class="stat-row" id="statRow">
+    <div class="stat-card skeleton" style="height:80px"></div>
+    <div class="stat-card skeleton" style="height:80px"></div>
+    <div class="stat-card skeleton" style="height:80px"></div>
+    <div class="stat-card skeleton" style="height:80px"></div>
+  </div>
+
+  <!-- Period selector -->
+  <div class="period-tabs">
+    <button class="period-btn active" data-days="30">1 個月</button>
+    <button class="period-btn" data-days="90">3 個月</button>
+    <button class="period-btn" data-days="180">6 個月</button>
+    <button class="period-btn" data-days="365">1 年</button>
+  </div>
+
+  <!-- Chart -->
+  <div class="card">
+    <div class="card-body">
+      <div class="chart-wrap">
+        <canvas id="rateChart"></canvas>
+      </div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;text-align:right">
+        ★ 最低點（最便宜換匯時機）｜● 最高點
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis note -->
+  <div class="card mt-24" id="analysisCard">
+    <div class="card-header"><h2>近期走勢分析</h2></div>
+    <div class="card-body" id="analysisBody">
+      <div style="color:var(--text-muted)">載入中...</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ 歷史走勢為各銀行牌告即期匯率的每日平均，僅供趨勢參考，無法預測未來走勢。投資外匯有風險，請自行判斷換匯時機。
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="js/layout.js"></script>
+<script src="js/api.js"></script>
+<script>
+let chart         = null;
+let historyData   = null;
+let curCurrency   = 'JPY';
+let curDays       = 30;
+let _chartJsReady = false;
+
+/* ── 懶載入 Chart.js（IntersectionObserver）── */
+function _ensureChartJs(callback) {
+  if (_chartJsReady) { callback(); return; }
+  const s = document.createElement('script');
+  s.src         = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+  s.integrity   = 'sha384-e6nUZLBkQ86NJ6TVVKAeSaK8jWa3NhkYWZFomE39AvDbQWeie9PlQqM3pmYW5d1g';
+  s.crossOrigin = 'anonymous';
+  s.onload  = () => { _chartJsReady = true; callback(); };
+  s.onerror = () => {
+    console.error('Chart.js 載入失敗');
+    document.querySelector('.chart-wrap').innerHTML =
+      '<div class="alert alert-error">圖表載入失敗，請重新整理頁面</div>';
+  };
+  document.head.appendChild(s);
+}
+
+const _chartCanvas = document.getElementById('rateChart');
+const _chartObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    _chartObserver.disconnect();
+    if (historyData) _ensureChartJs(renderChart);
+  }
+}, { rootMargin: '100px' });
+_chartObserver.observe(_chartCanvas);
+
+/* ── Tabs ── */
+document.querySelectorAll('#currencyTabs .tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('#currencyTabs .tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    curCurrency = tab.dataset.currency;
+    loadHistory();
+  });
+});
+
+document.querySelectorAll('.period-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    curDays = parseInt(btn.dataset.days);
+    if (_chartJsReady) renderChart();
+  });
+});
+
+async function loadHistory() {
+  const statRow = document.getElementById('statRow');
+  try {
+    const res = await fetchHistory(curCurrency, 365, {
+      onSlow: () => {
+        statRow.innerHTML =
+          '<div style="color:var(--text-muted);padding:8px 0">載入中，請稍候...</div>';
+      },
+    });
+    historyData = res.data;
+    renderStats(historyData);
+    renderAnalysis(historyData);
+    // 讓 IntersectionObserver 在 canvas 進入 viewport 時觸發圖表載入
+    // 若 canvas 已在視窗內（直接進入頁面），手動觸發
+    _ensureChartJs(renderChart);
+  } catch (e) {
+    showError(statRow, e, '歷史資料載入失敗，請稍後再試');
+  }
+}
+
+function renderStats(data) {
+  if (!data || !data.length) return;
+  const sells   = data.map(d => d.spot_sell);
+  const min     = Math.min(...sells);
+  const max     = Math.max(...sells);
+  const cur     = sells[sells.length - 1];
+  const avg     = sells.reduce((a, b) => a + b, 0) / sells.length;
+  const minDate = data[sells.indexOf(min)].date;
+  const maxDate = data[sells.indexOf(max)].date;
+  const fmt     = curCurrency === 'JPY' ? v => v.toFixed(4) : v => v.toFixed(3);
+
+  document.getElementById('statRow').innerHTML = `
+    <div class="stat-card">
+      <div class="slabel">今日即期賣出</div>
+      <div class="svalue">${fmt(cur)}</div>
+      <div class="snote">TWD / ${curCurrency}</div>
+    </div>
+    <div class="stat-card">
+      <div class="slabel lowest-mark">★ 近一年最低</div>
+      <div class="svalue lowest-mark">${fmt(min)}</div>
+      <div class="snote">${minDate}</div>
+    </div>
+    <div class="stat-card">
+      <div class="slabel highest-mark">● 近一年最高</div>
+      <div class="svalue highest-mark">${fmt(max)}</div>
+      <div class="snote">${maxDate}</div>
+    </div>
+    <div class="stat-card">
+      <div class="slabel">近一年平均</div>
+      <div class="svalue">${fmt(avg)}</div>
+      <div class="snote">平均賣出匯率</div>
+    </div>`;
+}
+
+function renderChart() {
+  if (typeof Chart === 'undefined' || !historyData) return;
+  const cutoff  = new Date();
+  cutoff.setDate(cutoff.getDate() - curDays);
+  const filtered = historyData.filter(d => new Date(d.date) >= cutoff);
+
+  const labels   = filtered.map(d => d.date);
+  const sellData = filtered.map(d => d.spot_sell);
+  const buyData  = filtered.map(d => d.spot_buy);
+  const minVal   = Math.min(...sellData);
+  const maxVal   = Math.max(...sellData);
+  const minIdx   = sellData.indexOf(minVal);
+  const maxIdx   = sellData.indexOf(maxVal);
+
+  // 顏色取自設計系統（css/style.css :root），不在此寫死
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const pointColors = sellData.map((_, i) =>
+    i === minIdx ? css('--success') : i === maxIdx ? css('--error') : 'transparent'
+  );
+  const pointRadius = sellData.map((_, i) =>
+    (i === minIdx || i === maxIdx) ? 6 : 2
+  );
+
+  if (chart) chart.destroy();
+  chart = new Chart(_chartCanvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '即期賣出（換匯成本）',
+          data: sellData,
+          borderColor: css('--primary'),
+          backgroundColor: css('--primary-light'),
+          fill: true, tension: 0.3,
+          pointBackgroundColor: pointColors,
+          pointRadius, pointBorderWidth: 2, pointBorderColor: pointColors,
+        },
+        {
+          label: '即期買入',
+          data: buyData,
+          borderColor: css('--border'), backgroundColor: 'transparent',
+          tension: 0.3, pointRadius: 0, borderDash: [4, 3],
+        },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(4)}` } },
+      },
+      scales: {
+        x: {
+          ticks: { maxTicksLimit: 8, callback: (_, i) => labels[i]?.slice(5) || '' },
+          grid: { display: false },
+        },
+        y: { ticks: { callback: v => v.toFixed(curCurrency === 'JPY' ? 4 : 3) } },
+      },
+    },
+  });
+}
+
+function renderAnalysis(data) {
+  if (!data || data.length < 30) return;
+  const sells = data.map(d => d.spot_sell);
+  const cur   = sells[sells.length - 1];
+  const avg30 = sells.slice(-30).reduce((a, b) => a + b, 0) / 30;
+  const avg90 = sells.slice(-90).reduce((a, b) => a + b, 0) / Math.min(90, sells.length);
+  const pct   = ((cur - avg30) / avg30 * 100).toFixed(2);
+  const trend = cur > avg30
+    ? `高於 30 日均價 ${pct}%`
+    : `低於 30 日均價 ${Math.abs(+pct)}%`;
+
+  document.getElementById('analysisBody').innerHTML = `
+    <div style="font-size:14px;line-height:2;color:var(--text-muted)">
+      <div>📌 今日即期賣出：<strong>${cur.toFixed(4)}</strong></div>
+      <div>📌 近 30 日均值：${avg30.toFixed(4)}（今日
+        <span class="${cur > avg30 ? 'text-error' : 'text-success'}">${trend}</span>）</div>
+      <div>📌 近 90 日均值：${avg90.toFixed(4)}</div>
+      <div style="margin-top:12px">
+        ${cur <= avg30
+          ? '✅ 今日匯率<strong>低於近期均值</strong>，相對適合換匯。'
+          : '⚠️ 今日匯率<strong>高於近期均值</strong>，可評估是否等待更低點。'}
+      </div>
+    </div>`;
+}
+
+loadHistory();
+</script>
+</body>
+</html>

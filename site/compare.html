@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>銀行匯率比較表 — 換匯比較網</title>
+<meta name="description" content="比較兆豐、玉山、國泰世華、台新、富邦、永豐等 11 家銀行的日幣、美元匯率，自動標出最划算的銀行。">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .compare-header {
+    display: flex; flex-wrap: wrap;
+    align-items: center; gap: 12px;
+    padding: 16px 0;
+  }
+  .compare-header .tabs { margin-bottom: 0; }
+  .info-bar {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    font-size: 13px; color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .legend { display: flex; gap: 12px; align-items: center; font-size: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .bank-col { font-weight: 600; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="page-hero">
+  <h1>各銀行匯率比較表</h1>
+  <p>整合 11 家銀行的牌告匯率，標出最划算的銀行；超過 4 小時沒更新會提醒你。</p>
+</div>
+
+<div class="container page-body">
+  <div id="alertBanner"></div>
+
+  <div class="compare-header">
+    <div class="tabs" id="currencyTabs">
+      <button class="tab active" data-currency="JPY">🇯🇵 日幣 JPY</button>
+      <button class="tab" data-currency="USD">🇺🇸 美元 USD</button>
+    </div>
+    <div style="margin-left:auto" class="info-bar">
+      <span>最後更新：<strong id="lastUpdate">—</strong></span>
+      <span id="freshBadge"></span>
+    </div>
+  </div>
+
+  <div class="legend" style="margin-bottom:12px">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--success-bg);border:1px solid var(--success-line)"></div>最划算</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--warning-bg);border:1px solid var(--warning-line)"></div>資料超過 4 小時</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--error-bg);border:1px solid var(--error)"></div>資料無法取得</div>
+  </div>
+
+  <div class="card">
+    <div class="table-wrap">
+      <table id="rateTable">
+        <thead>
+          <tr>
+            <th>銀行</th>
+            <th data-col="spot_buy">即期買入 <span class="sort-icon"></span></th>
+            <th data-col="spot_sell">即期賣出 <span class="sort-icon"></span></th>
+            <th data-col="cash_buy">現鈔買入 <span class="sort-icon"></span></th>
+            <th data-col="cash_sell">現鈔賣出 <span class="sort-icon"></span></th>
+            <th>更新時間</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">載入中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="update-time mt-8" id="unavailableNote"></p>
+
+  <!-- Bank fees note -->
+  <div class="card mt-24">
+    <div class="card-header"><h2>臨櫃換匯手續費參考</h2><span class="badge badge-stale">資料待查證</span></div>
+    <div class="alert alert-warning" style="margin:12px 16px 0">這張表是早期人工整理、沒有附來源的資料，尚未和銀行官網核對，請勿作為依據。</div>
+    <div class="table-wrap">
+      <table id="feesTable">
+        <thead>
+          <tr>
+            <th>銀行</th>
+            <th>手續費</th>
+            <th>免費條件</th>
+            <th>備註</th>
+            <th>最後確認</th>
+          </tr>
+        </thead>
+        <tbody id="feesBody">
+          <tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted)">載入中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:10px 16px;font-size:11px;color:var(--text-light)">
+      ⚠️ 手續費資料每季手動確認一次，最終以各銀行現場公告為準。
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ 本表匯率資料來源為各銀行公開牌告，僅供參考。實際交易匯率以銀行現場公告為準，本網站不負任何因使用本資料產生之損失責任。
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script src="js/layout.js"></script>
+<script src="js/api.js"></script>
+<script>
+let allRates   = null;
+let sortCol    = 'spot_sell';
+let sortAsc    = true;
+let curCurrency = 'JPY';
+
+/* ── Currency tabs ── */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    curCurrency = tab.dataset.currency;
+    renderTable();
+  });
+});
+
+/* ── Sort ── */
+document.querySelectorAll('th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = false; } // default desc for rates
+    document.querySelectorAll('th[data-col]').forEach(t => {
+      t.classList.remove('sort-asc', 'sort-desc');
+    });
+    th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+    renderTable();
+  });
+});
+
+async function init() {
+  const banner = document.getElementById('alertBanner');
+  try {
+    allRates = await fetchRates({
+      onSlow: () => {
+        document.getElementById('tableBody').innerHTML =
+          '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted)">載入中，請稍候...</td></tr>';
+      },
+    });
+    renderTable();
+    renderFees();
+    document.getElementById('unavailableNote').textContent = unavailableText(allRates);
+    document.getElementById('lastUpdate').textContent = formatDateTime(allRates.updated_at);
+    checkStale(allRates);
+  } catch (e) {
+    console.error(e);
+    banner.innerHTML =
+      '<div class="alert alert-error">功能暫時無法使用，請稍後再試或直接查詢各銀行官網。</div>';
+  }
+}
+
+function renderTable() {
+  if (!allRates) return;
+  const currency = curCurrency;
+  const fields   = ['spot_buy', 'spot_sell', 'cash_buy', 'cash_sell'];
+
+  // Best values
+  const bests = {};
+  fields.forEach(f => { bests[f] = getBestRate(allRates.rates, currency, f); });
+
+  // Sort
+  const sorted = [...allRates.rates].sort((a, b) => {
+    const av = a[currency]?.[sortCol] ?? (sortAsc ? Infinity : -Infinity);
+    const bv = b[currency]?.[sortCol] ?? (sortAsc ? Infinity : -Infinity);
+    return sortAsc ? av - bv : bv - av;
+  });
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = sorted.map(bank => {
+    const r = bank[currency];
+    if (!r) return `<tr class="error-row">
+      <td class="bank-col">${bank.bank}</td>
+      <td colspan="4" style="color:var(--text-light);font-style:italic">資料暫時無法取得，請直接查詢銀行官網</td>
+      <td>—</td></tr>`;
+
+    const stale    = isStale(r.updated_at);
+    const rowClass = stale ? 'stale-row' : '';
+
+    function cell(field) {
+      if (r[field] == null) return '<td><span class="unavail">—</span></td>';
+      const isBest = bank.bank_code === bests[field].bestBank;
+      return `<td class="${isBest ? 'best' : ''}">${formatRate(r[field], currency)}</td>`;
+    }
+
+    return `<tr class="${rowClass}">
+      <td class="bank-col">${bank.bank}</td>
+      ${cell('spot_buy')}${cell('spot_sell')}${cell('cash_buy')}${cell('cash_sell')}
+      <td class="update-time${stale ? ' text-warning' : ''}">
+        ${formatTimeAgo(r.updated_at)}${stale ? ' <span class="badge badge-stale">⚠ 資料偏舊</span>' : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function renderFees() {
+  const fees = await fetchBankFees();
+  document.getElementById('feesBody').innerHTML = fees.map(f => `
+    <tr>
+      <td class="bank-col">${f.bank}</td>
+      <td>NT$${f.fee_twd}</td>
+      <td>${f.free_condition}</td>
+      <td style="color:var(--text-muted)">${f.note}</td>
+      <td class="update-time">${f.confirmed_date}</td>
+    </tr>`).join('');
+}
+
+function checkStale(data) {
+  const anyStale = data.rates.some(b => {
+    const r = b['JPY'] || b['USD'];
+    return r && isStale(r.updated_at);
+  });
+  if (anyStale) {
+    document.getElementById('alertBanner').innerHTML =
+      '<div class="alert alert-warning">⚠️ 部分銀行資料超過 4 小時未更新，顯示為黃色。如需最新匯率請直接查詢各銀行官網。</div>';
+  }
+  const badge = document.getElementById('freshBadge');
+  badge.innerHTML = anyStale
+    ? '<span class="badge badge-stale">部分資料偏舊</span>'
+    : '<span class="badge badge-ok">✓ 資料即時</span>';
+}
+
+init();
+</script>
+</body>
+</html>

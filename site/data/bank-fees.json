@@ -1,0 +1,38 @@
+[
+  {
+    "bank": "台灣銀行", "fee_twd": 200,
+    "free_condition": "無",
+    "note": "臨櫃換匯手續費",
+    "confirmed_date": "2026-05-01"
+  },
+  {
+    "bank": "兆豐銀行", "fee_twd": 300,
+    "free_condition": "透過網路銀行換匯免手續費",
+    "note": "臨櫃 NT$300，網銀免費",
+    "confirmed_date": "2026-05-01"
+  },
+  {
+    "bank": "玉山銀行", "fee_twd": 150,
+    "free_condition": "玉山 Smart 帳戶每月免費 6 次",
+    "note": "一般臨櫃 NT$150",
+    "confirmed_date": "2026-05-01"
+  },
+  {
+    "bank": "國泰世華", "fee_twd": 200,
+    "free_condition": "KOKO 帳戶免手續費",
+    "note": "臨櫃 NT$200",
+    "confirmed_date": "2026-05-01"
+  },
+  {
+    "bank": "合作金庫", "fee_twd": 300,
+    "free_condition": "無",
+    "note": "臨櫃換匯手續費",
+    "confirmed_date": "2026-05-01"
+  },
+  {
+    "bank": "第一銀行", "fee_twd": 200,
+    "free_condition": "e 指神通網路銀行免手續費",
+    "note": "臨櫃 NT$200，網銀免費",
+    "confirmed_date": "2026-05-01"
+  }
+]
