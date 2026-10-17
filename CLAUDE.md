@@ -10,7 +10,7 @@
 
 流量分析：Cloudflare Web Analytics（2026-10-18 起）；Google Search Console 已驗證（`site/googleb9690c46a79fca48.html` 勿刪）。新增頁面要同步加入 `site/sitemap.xml`。
 
-已知待辦：GitHub repo 與 Actions secrets 尚未設定（設定前資料不會自動更新）；台銀、中信暫停；`data/bank-fees.json` 只有舊 6 家且含台銀；`articles/index.html` 另 3 篇文章、`contact.html`、`sitemap.xml` 尚不存在；`robots.txt` 網域待填。
+已知待辦：台銀、中信暫停；`data/bank-fees.json` 只有舊 6 家且含台銀；`articles/index.html` 另 3 篇文章、`contact.html`、`sitemap.xml` 尚不存在；`robots.txt` 網域待填。
 
 ## 專案結構
 
@@ -22,6 +22,7 @@
   - 實際連線測試：`cd backend && .venv/Scripts/python test_scrapers.py`
 - **部署**：推送到 main 或在 GitHub Actions 手動執行「更新匯率並部署」。不要從本機 `wrangler deploy`（會被 `check_site_data.py` 擋下）
 - 網址：https://exchange-rate.exchange-rate.workers.dev
+- GitHub：https://github.com/takeshi0902/exchange-rate（公開；secrets：CLOUDFLARE_API_TOKEN、CLOUDFLARE_ACCOUNT_ID，選用 DISCORD_WEBHOOK_URL）
 - 文件：`docs/`（各階段產出）、`docs/adr/`（技術決策）
 
 ## 規則
