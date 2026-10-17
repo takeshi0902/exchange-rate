@@ -10,7 +10,7 @@
 
 流量分析：Cloudflare Web Analytics（2026-10-18 起）；Google Search Console 已驗證（`site/googleb9690c46a79fca48.html` 勿刪）。新增頁面要同步加入 `site/sitemap.xml`。
 
-已知待辦：台銀、中信暫停；`data/bank-fees.json` 只有舊 6 家且含台銀；`articles/index.html` 另 3 篇文章、`contact.html`、`sitemap.xml` 尚不存在；`robots.txt` 網域待填。
+已知待辦：台銀、中信暫停；`data/bank-fees.json` 只有舊 6 家且含台銀；`articles/index.html` 另 3 篇文章、`contact.html` 尚不存在。
 
 ## 專案結構
 
