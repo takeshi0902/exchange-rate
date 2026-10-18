@@ -3,5 +3,10 @@
   "banks": 11,
   "spot_buy": 0.2027,
   "spot_sell": 0.2071
+ },
+ "2026-10-19": {
+  "banks": 11,
+  "spot_buy": 0.2027,
+  "spot_sell": 0.2071
  }
 }
