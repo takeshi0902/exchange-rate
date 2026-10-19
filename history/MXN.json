@@ -8,5 +8,10 @@
   "banks": 1,
   "spot_buy": 1.724,
   "spot_sell": 1.804
+ },
+ "2026-10-20": {
+  "banks": 1,
+  "spot_buy": 1.724,
+  "spot_sell": 1.804
  }
 }
