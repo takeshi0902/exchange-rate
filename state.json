@@ -1,57 +1,57 @@
 {
  "CATHAY": {
-  "consecutive_fails": 13,
+  "consecutive_fails": 14,
   "last_ok": "2026-10-21T23:40:18+08:00",
   "notified": true
  },
  "CHB": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "ESUN": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "FIRST": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "FUBON": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "HNCB": {
-  "consecutive_fails": 3,
+  "consecutive_fails": 4,
   "last_ok": "2026-10-22T09:40:20+08:00",
   "notified": true
  },
  "LANDBANK": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "MEGA": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "SINOPAC": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "TAISHIN": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  },
  "TCB": {
   "consecutive_fails": 0,
-  "last_ok": "2026-10-22T12:36:38+08:00",
+  "last_ok": "2026-10-22T13:36:01+08:00",
   "notified": false
  }
 }
