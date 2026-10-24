@@ -33,5 +33,10 @@
   "banks": 1,
   "spot_buy": 4.79,
   "spot_sell": 4.95
+ },
+ "2026-10-25": {
+  "banks": 1,
+  "spot_buy": 4.79,
+  "spot_sell": 4.95
  }
 }
