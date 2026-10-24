@@ -78,7 +78,7 @@
     "spot_sell": 2.02
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "CHB": {
   "bank_code": "CHB",
@@ -151,7 +151,7 @@
     "spot_sell": 2.014
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "ESUN": {
   "bank_code": "ESUN",
@@ -234,7 +234,7 @@
     "spot_sell": 2.013
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "FIRST": {
   "bank_code": "FIRST",
@@ -315,7 +315,7 @@
     "spot_sell": 2.023
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "FUBON": {
   "bank_code": "FUBON",
@@ -392,7 +392,7 @@
     "spot_sell": 2.0206
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "HNCB": {
   "bank_code": "HNCB",
@@ -455,7 +455,7 @@
     "spot_sell": 2.016
    }
   },
-  "updated_at": "2026-10-24T22:33:36+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "LANDBANK": {
   "bank_code": "LANDBANK",
@@ -532,7 +532,7 @@
     "spot_sell": 2.019
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "MEGA": {
   "bank_code": "MEGA",
@@ -643,7 +643,7 @@
     "spot_sell": 2.02
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "SINOPAC": {
   "bank_code": "SINOPAC",
@@ -724,7 +724,7 @@
     "spot_sell": 2.0192
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "TAISHIN": {
   "bank_code": "TAISHIN",
@@ -775,10 +775,10 @@
     "spot_sell": 0.2089
    },
    "NZD": {
-    "cash_buy": 18.214,
-    "cash_sell": 18.859,
-    "spot_buy": 18.419,
-    "spot_sell": 18.659
+    "cash_buy": 18.221,
+    "cash_sell": 18.866,
+    "spot_buy": 18.426,
+    "spot_sell": 18.666
    },
    "SEK": {
     "spot_buy": 3.2458,
@@ -805,7 +805,7 @@
     "spot_sell": 2.0013
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  },
  "TCB": {
   "bank_code": "TCB",
@@ -880,6 +880,6 @@
     "spot_sell": 2.035
    }
   },
-  "updated_at": "2026-10-25T02:35:25+08:00"
+  "updated_at": "2026-10-25T03:30:48+08:00"
  }
 }
