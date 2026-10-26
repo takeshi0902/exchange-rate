@@ -78,7 +78,7 @@
     "spot_sell": 2.02
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "CHB": {
   "bank_code": "CHB",
@@ -151,27 +151,27 @@
     "spot_sell": 2.014
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "ESUN": {
   "bank_code": "ESUN",
   "bank_name": "玉山銀行",
   "rates": {
    "AUD": {
-    "cash_buy": 22.45,
-    "cash_sell": 23.25,
-    "spot_buy": 22.74,
-    "spot_sell": 22.96
+    "cash_buy": 22.46,
+    "cash_sell": 23.26,
+    "spot_buy": 22.75,
+    "spot_sell": 22.97
    },
    "CAD": {
-    "cash_buy": 22.79,
-    "cash_sell": 23.59,
-    "spot_buy": 23.1,
-    "spot_sell": 23.28
+    "cash_buy": 22.82,
+    "cash_sell": 23.62,
+    "spot_buy": 23.13,
+    "spot_sell": 23.31
    },
    "CHF": {
-    "spot_buy": 39.24,
-    "spot_sell": 39.5
+    "spot_buy": 39.23,
+    "spot_sell": 39.49
    },
    "CNY": {
     "cash_buy": 4.814,
@@ -180,22 +180,22 @@
     "spot_sell": 4.91
    },
    "EUR": {
-    "cash_buy": 35.93,
-    "cash_sell": 36.93,
-    "spot_buy": 36.23,
-    "spot_sell": 36.63
+    "cash_buy": 35.92,
+    "cash_sell": 36.92,
+    "spot_buy": 36.22,
+    "spot_sell": 36.62
    },
    "GBP": {
-    "cash_buy": 42.97,
-    "cash_sell": 43.97,
-    "spot_buy": 43.27,
-    "spot_sell": 43.67
+    "cash_buy": 42.98,
+    "cash_sell": 43.98,
+    "spot_buy": 43.28,
+    "spot_sell": 43.68
    },
    "HKD": {
-    "cash_buy": 4.05,
-    "cash_sell": 4.21,
-    "spot_buy": 4.12,
-    "spot_sell": 4.18
+    "cash_buy": 4.049,
+    "cash_sell": 4.209,
+    "spot_buy": 4.119,
+    "spot_sell": 4.179
    },
    "JPY": {
     "cash_buy": 0.2038,
@@ -204,20 +204,20 @@
     "spot_sell": 0.2088
    },
    "MXN": {
-    "spot_buy": 1.713,
-    "spot_sell": 1.793
+    "spot_buy": 1.712,
+    "spot_sell": 1.792
    },
    "NZD": {
-    "spot_buy": 18.38,
-    "spot_sell": 18.62
+    "spot_buy": 18.39,
+    "spot_sell": 18.63
    },
    "SEK": {
-    "spot_buy": 3.24,
-    "spot_sell": 3.3
+    "spot_buy": 3.242,
+    "spot_sell": 3.302
    },
    "SGD": {
-    "spot_buy": 25.34,
-    "spot_sell": 25.5
+    "spot_buy": 25.35,
+    "spot_sell": 25.51
    },
    "THB": {
     "spot_buy": 0.944,
@@ -230,11 +230,11 @@
     "spot_sell": 32.62
    },
    "ZAR": {
-    "spot_buy": 1.908,
-    "spot_sell": 2.008
+    "spot_buy": 1.907,
+    "spot_sell": 2.007
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "FIRST": {
   "bank_code": "FIRST",
@@ -315,49 +315,49 @@
     "spot_sell": 2.023
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "FUBON": {
   "bank_code": "FUBON",
   "bank_name": "台北富邦",
   "rates": {
    "AUD": {
-    "cash_buy": 22.3788,
-    "cash_sell": 23.2788,
-    "spot_buy": 22.6388,
-    "spot_sell": 23.0188
+    "cash_buy": 22.3853,
+    "cash_sell": 23.2853,
+    "spot_buy": 22.6453,
+    "spot_sell": 23.0253
    },
    "CAD": {
-    "cash_buy": 22.6583,
-    "cash_sell": 23.6693,
-    "spot_buy": 22.9638,
-    "spot_sell": 23.3638
+    "cash_buy": 22.6913,
+    "cash_sell": 23.7023,
+    "spot_buy": 22.9968,
+    "spot_sell": 23.3968
    },
    "CHF": {
-    "spot_buy": 39.0602,
-    "spot_sell": 39.5802
+    "spot_buy": 39.0578,
+    "spot_sell": 39.5778
    },
    "CNY": {
-    "cash_buy": 4.7136,
-    "cash_sell": 4.9386,
-    "spot_buy": 4.8486,
-    "spot_sell": 4.9086
+    "cash_buy": 4.7134,
+    "cash_sell": 4.9384,
+    "spot_buy": 4.8484,
+    "spot_sell": 4.9084
    },
    "EUR": {
-    "cash_buy": 35.7551,
-    "cash_sell": 37.0061,
-    "spot_buy": 36.1206,
-    "spot_sell": 36.6406
+    "cash_buy": 35.747,
+    "cash_sell": 36.998,
+    "spot_buy": 36.1125,
+    "spot_sell": 36.6325
    },
    "GBP": {
-    "spot_buy": 43.1075,
-    "spot_sell": 43.7375
+    "spot_buy": 43.1172,
+    "spot_sell": 43.7472
    },
    "HKD": {
-    "cash_buy": 4.0421,
-    "cash_sell": 4.2261,
-    "spot_buy": 4.1081,
-    "spot_sell": 4.1861
+    "cash_buy": 4.0419,
+    "cash_sell": 4.2259,
+    "spot_buy": 4.1079,
+    "spot_sell": 4.1859
    },
    "JPY": {
     "cash_buy": 0.2013,
@@ -366,16 +366,16 @@
     "spot_sell": 0.209
    },
    "NZD": {
-    "spot_buy": 18.2858,
-    "spot_sell": 18.6658
+    "spot_buy": 18.2923,
+    "spot_sell": 18.6723
    },
    "SEK": {
-    "spot_buy": 3.2062,
-    "spot_sell": 3.3262
+    "spot_buy": 3.2083,
+    "spot_sell": 3.3283
    },
    "SGD": {
-    "spot_buy": 25.207,
-    "spot_sell": 25.587
+    "spot_buy": 25.209,
+    "spot_sell": 25.589
    },
    "THB": {
     "spot_buy": 0.9329,
@@ -388,74 +388,74 @@
     "spot_sell": 32.6185
    },
    "ZAR": {
-    "spot_buy": 1.8955,
-    "spot_sell": 2.0155
+    "spot_buy": 1.8951,
+    "spot_sell": 2.0151
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "HNCB": {
   "bank_code": "HNCB",
   "bank_name": "華南銀行",
   "rates": {
    "AUD": {
-    "spot_buy": 22.717,
-    "spot_sell": 22.918
+    "spot_buy": 22.725,
+    "spot_sell": 22.926
    },
    "CAD": {
-    "spot_buy": 23.052,
-    "spot_sell": 23.253
+    "spot_buy": 23.084,
+    "spot_sell": 23.285
    },
    "CHF": {
-    "spot_buy": 39.18,
-    "spot_sell": 39.481
+    "spot_buy": 39.149,
+    "spot_sell": 39.45
    },
    "CNY": {
-    "spot_buy": 4.848,
-    "spot_sell": 4.907
+    "spot_buy": 4.847,
+    "spot_sell": 4.906
    },
    "EUR": {
-    "spot_buy": 36.178,
-    "spot_sell": 36.579
+    "spot_buy": 36.155,
+    "spot_sell": 36.556
    },
    "GBP": {
-    "spot_buy": 43.121,
-    "spot_sell": 43.682
+    "spot_buy": 43.128,
+    "spot_sell": 43.689
    },
    "HKD": {
     "spot_buy": 4.116,
     "spot_sell": 4.177
    },
    "JPY": {
-    "spot_buy": 0.2046,
-    "spot_sell": 0.2086
+    "spot_buy": 0.2044,
+    "spot_sell": 0.2085
    },
    "NZD": {
-    "spot_buy": 18.368,
-    "spot_sell": 18.569
+    "spot_buy": 18.373,
+    "spot_sell": 18.574
    },
    "SEK": {
-    "spot_buy": 3.201,
-    "spot_sell": 3.332
+    "spot_buy": 3.2,
+    "spot_sell": 3.331
    },
    "SGD": {
-    "spot_buy": 25.291,
-    "spot_sell": 25.492
+    "spot_buy": 25.288,
+    "spot_sell": 25.489
    },
    "THB": {
-    "spot_buy": 0.9318,
-    "spot_sell": 0.9919
+    "spot_buy": 0.9329,
+    "spot_sell": 0.993
    },
    "USD": {
     "spot_buy": 32.445,
     "spot_sell": 32.605
    },
    "ZAR": {
-    "spot_buy": 1.9,
-    "spot_sell": 2.011
+    "spot_buy": 1.899,
+    "spot_sell": 2.01
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "LANDBANK": {
   "bank_code": "LANDBANK",
@@ -532,29 +532,29 @@
     "spot_sell": 2.019
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "MEGA": {
   "bank_code": "MEGA",
   "bank_name": "兆豐銀行",
   "rates": {
    "AUD": {
-    "cash_buy": 22.44,
-    "cash_sell": 23.23,
-    "spot_buy": 22.72,
-    "spot_sell": 22.96
+    "cash_buy": 22.43,
+    "cash_sell": 23.22,
+    "spot_buy": 22.71,
+    "spot_sell": 22.95
    },
    "CAD": {
-    "cash_buy": 22.69,
-    "cash_sell": 23.6,
-    "spot_buy": 23.07,
-    "spot_sell": 23.27
+    "cash_buy": 22.71,
+    "cash_sell": 23.62,
+    "spot_buy": 23.09,
+    "spot_sell": 23.29
    },
    "CHF": {
-    "cash_buy": 38.53,
-    "cash_sell": 39.72,
-    "spot_buy": 39.24,
-    "spot_sell": 39.44
+    "cash_buy": 38.52,
+    "cash_sell": 39.71,
+    "spot_buy": 39.23,
+    "spot_sell": 39.43
    },
    "CNY": {
     "cash_buy": 4.783,
@@ -563,16 +563,16 @@
     "spot_sell": 4.903
    },
    "EUR": {
-    "cash_buy": 35.57,
-    "cash_sell": 36.91,
-    "spot_buy": 36.19,
-    "spot_sell": 36.59
+    "cash_buy": 35.56,
+    "cash_sell": 36.9,
+    "spot_buy": 36.18,
+    "spot_sell": 36.58
    },
    "GBP": {
-    "cash_buy": 42.2,
-    "cash_sell": 44.34,
-    "spot_buy": 43.23,
-    "spot_sell": 43.63
+    "cash_buy": 42.19,
+    "cash_sell": 44.33,
+    "spot_buy": 43.22,
+    "spot_sell": 43.62
    },
    "HKD": {
     "cash_buy": 3.988,
@@ -617,10 +617,10 @@
     "spot_sell": 3.32
    },
    "SGD": {
-    "cash_buy": 24.83,
-    "cash_sell": 25.72,
-    "spot_buy": 25.32,
-    "spot_sell": 25.5
+    "cash_buy": 24.82,
+    "cash_sell": 25.71,
+    "spot_buy": 25.31,
+    "spot_sell": 25.49
    },
    "THB": {
     "cash_buy": 0.833,
@@ -643,7 +643,7 @@
     "spot_sell": 2.01
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "SINOPAC": {
   "bank_code": "SINOPAC",
@@ -724,49 +724,49 @@
     "spot_sell": 2.0192
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "TAISHIN": {
   "bank_code": "TAISHIN",
   "bank_name": "台新銀行",
   "rates": {
    "AUD": {
-    "cash_buy": 22.439,
-    "cash_sell": 23.223,
-    "spot_buy": 22.721,
-    "spot_sell": 22.941
+    "cash_buy": 22.445,
+    "cash_sell": 23.229,
+    "spot_buy": 22.727,
+    "spot_sell": 22.947
    },
    "CAD": {
-    "cash_buy": 22.751,
-    "cash_sell": 23.571,
-    "spot_buy": 23.041,
-    "spot_sell": 23.281
+    "cash_buy": 22.787,
+    "cash_sell": 23.607,
+    "spot_buy": 23.077,
+    "spot_sell": 23.317
    },
    "CHF": {
-    "spot_buy": 39.124,
-    "spot_sell": 39.504
+    "spot_buy": 39.119,
+    "spot_sell": 39.499
    },
    "CNY": {
-    "cash_buy": 4.7861,
-    "cash_sell": 4.9161,
-    "spot_buy": 4.8551,
-    "spot_sell": 4.9011
+    "cash_buy": 4.786,
+    "cash_sell": 4.916,
+    "spot_buy": 4.855,
+    "spot_sell": 4.901
    },
    "EUR": {
-    "cash_buy": 35.874,
-    "cash_sell": 36.89,
-    "spot_buy": 36.207,
-    "spot_sell": 36.557
+    "cash_buy": 35.864,
+    "cash_sell": 36.88,
+    "spot_buy": 36.197,
+    "spot_sell": 36.547
    },
    "GBP": {
-    "spot_buy": 43.203,
-    "spot_sell": 43.643
+    "spot_buy": 43.219,
+    "spot_sell": 43.659
    },
    "HKD": {
-    "cash_buy": 4.0771,
-    "cash_sell": 4.2171,
-    "spot_buy": 4.1221,
-    "spot_sell": 4.1721
+    "cash_buy": 4.0768,
+    "cash_sell": 4.2168,
+    "spot_buy": 4.1218,
+    "spot_sell": 4.1718
    },
    "JPY": {
     "cash_buy": 0.2025,
@@ -775,20 +775,20 @@
     "spot_sell": 0.208
    },
    "NZD": {
-    "cash_buy": 18.149,
-    "cash_sell": 18.794,
-    "spot_buy": 18.354,
-    "spot_sell": 18.594
+    "cash_buy": 18.155,
+    "cash_sell": 18.8,
+    "spot_buy": 18.36,
+    "spot_sell": 18.6
    },
    "SEK": {
-    "spot_buy": 3.2359,
-    "spot_sell": 3.2959
+    "spot_buy": 3.2378,
+    "spot_sell": 3.2978
    },
    "SGD": {
-    "cash_buy": 24.967,
-    "cash_sell": 25.627,
-    "spot_buy": 25.267,
-    "spot_sell": 25.527
+    "cash_buy": 24.965,
+    "cash_sell": 25.625,
+    "spot_buy": 25.265,
+    "spot_sell": 25.525
    },
    "THB": {
     "spot_buy": 0.9449,
@@ -801,11 +801,11 @@
     "spot_sell": 32.616
    },
    "ZAR": {
-    "spot_buy": 1.9151,
-    "spot_sell": 1.9951
+    "spot_buy": 1.915,
+    "spot_sell": 1.995
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  },
  "TCB": {
   "bank_code": "TCB",
@@ -880,6 +880,6 @@
     "spot_sell": 2.035
    }
   },
-  "updated_at": "2026-10-26T22:49:49+08:00"
+  "updated_at": "2026-10-27T00:06:52+08:00"
  }
 }
