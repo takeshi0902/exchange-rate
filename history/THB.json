@@ -68,5 +68,10 @@
   "banks": 11,
   "spot_buy": 0.9414,
   "spot_sell": 0.9893
+ },
+ "2026-11-01": {
+  "banks": 11,
+  "spot_buy": 0.9414,
+  "spot_sell": 0.9893
  }
 }
