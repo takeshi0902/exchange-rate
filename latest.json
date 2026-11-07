@@ -78,7 +78,7 @@
     "spot_sell": 2.042
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "CHB": {
   "bank_code": "CHB",
@@ -151,7 +151,7 @@
     "spot_sell": 2.035
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "ESUN": {
   "bank_code": "ESUN",
@@ -315,7 +315,7 @@
     "spot_sell": 2.034
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "FUBON": {
   "bank_code": "FUBON",
@@ -392,7 +392,7 @@
     "spot_sell": 2.0429
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "HNCB": {
   "bank_code": "HNCB",
@@ -455,7 +455,7 @@
     "spot_sell": 2.039
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "LANDBANK": {
   "bank_code": "LANDBANK",
@@ -532,7 +532,7 @@
     "spot_sell": 2.035
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "MEGA": {
   "bank_code": "MEGA",
@@ -643,7 +643,7 @@
     "spot_sell": 2.04
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "SINOPAC": {
   "bank_code": "SINOPAC",
@@ -724,7 +724,7 @@
     "spot_sell": 2.0198
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "TAISHIN": {
   "bank_code": "TAISHIN",
@@ -775,10 +775,10 @@
     "spot_sell": 0.2084
    },
    "NZD": {
-    "cash_buy": 17.86,
-    "cash_sell": 18.505,
-    "spot_buy": 18.065,
-    "spot_sell": 18.305
+    "cash_buy": 17.863,
+    "cash_sell": 18.508,
+    "spot_buy": 18.068,
+    "spot_sell": 18.308
    },
    "SEK": {
     "spot_buy": 3.2837,
@@ -805,7 +805,7 @@
     "spot_sell": 2.0259
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  },
  "TCB": {
   "bank_code": "TCB",
@@ -880,6 +880,6 @@
     "spot_sell": 2.0488
    }
   },
-  "updated_at": "2026-11-08T02:47:09+08:00"
+  "updated_at": "2026-11-08T03:44:44+08:00"
  }
 }
