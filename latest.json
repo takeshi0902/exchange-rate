@@ -78,7 +78,7 @@
     "spot_sell": 2.042
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "CHB": {
   "bank_code": "CHB",
@@ -151,7 +151,7 @@
     "spot_sell": 2.035
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "ESUN": {
   "bank_code": "ESUN",
@@ -234,7 +234,7 @@
     "spot_sell": 2.033
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "FIRST": {
   "bank_code": "FIRST",
@@ -315,7 +315,7 @@
     "spot_sell": 2.034
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "FUBON": {
   "bank_code": "FUBON",
@@ -392,7 +392,7 @@
     "spot_sell": 2.0429
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "HNCB": {
   "bank_code": "HNCB",
@@ -532,7 +532,7 @@
     "spot_sell": 2.035
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "MEGA": {
   "bank_code": "MEGA",
@@ -643,7 +643,7 @@
     "spot_sell": 2.04
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "SINOPAC": {
   "bank_code": "SINOPAC",
@@ -724,7 +724,7 @@
     "spot_sell": 2.0198
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "TAISHIN": {
   "bank_code": "TAISHIN",
@@ -785,10 +785,10 @@
     "spot_sell": 3.3433
    },
    "SGD": {
-    "cash_buy": 25.127,
-    "cash_sell": 25.787,
-    "spot_buy": 25.427,
-    "spot_sell": 25.687
+    "cash_buy": 25.125,
+    "cash_sell": 25.785,
+    "spot_buy": 25.425,
+    "spot_sell": 25.685
    },
    "THB": {
     "spot_buy": 0.9587,
@@ -805,7 +805,7 @@
     "spot_sell": 2.0245
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  },
  "TCB": {
   "bank_code": "TCB",
@@ -880,6 +880,6 @@
     "spot_sell": 2.0488
    }
   },
-  "updated_at": "2026-11-08T17:50:18+08:00"
+  "updated_at": "2026-11-08T18:46:40+08:00"
  }
 }
