@@ -78,7 +78,7 @@
     "spot_sell": 1.94
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  },
  "CHB": {
   "bank_code": "CHB",
@@ -151,7 +151,7 @@
     "spot_sell": 1.936
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  },
  "ESUN": {
   "bank_code": "ESUN",
@@ -234,7 +234,7 @@
     "spot_sell": 1.927
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  },
  "FIRST": {
   "bank_code": "FIRST",
@@ -392,7 +392,7 @@
     "spot_sell": 1.9413
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  },
  "HNCB": {
   "bank_code": "HNCB",
@@ -532,7 +532,7 @@
     "spot_sell": 1.939
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  },
  "MEGA": {
   "bank_code": "MEGA",
@@ -724,7 +724,7 @@
     "spot_sell": 1.9202
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  },
  "TAISHIN": {
   "bank_code": "TAISHIN",
@@ -781,8 +781,8 @@
     "spot_sell": 18.154
    },
    "SEK": {
-    "spot_buy": 3.1938,
-    "spot_sell": 3.2538
+    "spot_buy": 3.1936,
+    "spot_sell": 3.2536
    },
    "SGD": {
     "cash_buy": 25.124,
@@ -805,7 +805,7 @@
     "spot_sell": 1.9152
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  },
  "TCB": {
   "bank_code": "TCB",
@@ -880,6 +880,6 @@
     "spot_sell": 1.9565
    }
   },
-  "updated_at": "2026-11-21T17:40:36+08:00"
+  "updated_at": "2026-11-22T01:25:11+08:00"
  }
 }
